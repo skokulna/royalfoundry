@@ -24,7 +24,7 @@ export const ui = {
       products: { title: 'Products — Royal Foundry, Kottayam',
                   desc: 'Aluminium T-clamps and terminal connectors for substations and transmission lines, A/B switch parts, earthing products, rubber and coir mat moulds, DTR boxes and custom fabrication — made to drawing at Chingavanam, Kottayam.' },
       about:    { title: 'About Us — Royal Foundry, Chingavanam, Kottayam',
-                  desc: 'A family-run, woman-led foundry at Chingavanam, Kottayam, casting ferrous and non-ferrous components since 1991 for KSEB, electrical contractors and industry across Kerala.' },
+                  desc: 'A family-run, woman-led foundry at Chingavanam, Kottayam, casting ferrous and non-ferrous components since 1991 for KSEB circles and tower lines, electrical contractors and industry across Kerala.' },
       contact:  { title: 'Contact — Royal Foundry, Chingavanam, Kottayam',
                   desc: 'Call or WhatsApp Royal Foundry, Chingavanam, Kottayam for enquiries, quotations and custom castings.' },
     },
@@ -40,7 +40,7 @@ export const ui = {
 
     intro: {
       heading: 'What we make',
-      body: 'Melting, casting, machining and fabrication under one roof. We supply KSEB electrical divisions, contractors and industrial customers across Kerala. Send us a drawing, a sample or a photo on WhatsApp and we will quote.',
+      body: 'Melting, casting, machining and fabrication under one roof. We supply KSEB electrical, transmission and generation circles and tower lines, along with contractors and industrial customers across Kerala — and mat moulds to prominent mat manufacturers across India. Send us a drawing, a sample or a photo on WhatsApp and we will quote.',
     },
 
     strip: {
@@ -186,7 +186,7 @@ export const ui = {
           slug: 'moulds',
           name: 'Rubber & coir mat moulds',
           summary: 'Moulds for rubber mat and coir mat production — we make the mould, not the mat.',
-          bullets: ['Rubber mat and coir mat moulds', 'Made from your sample mat, drawing or photograph', 'Any size — 50×40, 70×40, 75×45, 80×50 cm and others', 'Door moulds and panel moulds', 'CNC machined mould plates', 'Repair and refurbishment of existing moulds'],
+          bullets: ['Rubber mat and coir mat moulds', 'Supplied to prominent mat manufacturers across India', 'Made from your sample mat, drawing or photograph', 'Any size — 50×40, 70×40, 75×45, 80×50 cm and others', 'Door moulds and panel moulds', 'CNC machined mould plates', 'Repair and refurbishment of existing moulds'],
         },
         {
           slug: 'dtr-boxes',
@@ -217,7 +217,7 @@ export const ui = {
       lead: 'A family-run foundry at Chingavanam, Kottayam — casting since 1991.',
       body: [
         'Royal Foundry was founded in 1991 by the late Sri K. A. Kamalasanan, a retired Executive Engineer of the Kerala State Electricity Board. It has run as a family proprietorship ever since, today under Smt. Meenakumari. In 2013–14 the Department of Industries and Commerce, Government of Kerala, named her Best Entrepreneur for Kottayam District in the Women Category at the MSME District Level Awards.',
-        'We undertake all kinds of ferrous and non-ferrous castings. Our main line is clamps and terminal connectors for electrical equipment in H.V. substations and transmission lines — the kind of component that spends thirty years outdoors on a pole and is simply expected to keep working. We also manufacture rubber mat and coir mat moulds, stainless steel DTR boxes, earthing products, and general fabrication job work.',
+        'We undertake all kinds of ferrous and non-ferrous castings. Our main line is clamps and terminal connectors for electrical equipment in H.V. substations and transmission lines — the kind of component that spends thirty years outdoors on a pole and is simply expected to keep working. These go to KSEB electrical, transmission and generation circles and tower lines, and to contractors and industrial customers across Kerala. Our rubber mat and coir mat moulds go to prominent mat manufacturers across India. We also make stainless steel DTR boxes, earthing products, and general fabrication job work.',
         'Melting, casting, turning, milling, drilling and CNC work all happen in our own unit at Nattakom. Most of what we make is to customer drawings, which means we are as comfortable with a single replacement part as with a repeat production run.',
         'Being small and family-run is the point. There is no call centre between you and the shop floor — when you ring about a job, you speak to someone who can tell you exactly where it stands.',
       ],
@@ -284,7 +284,7 @@ export const ui = {
 
     intro: {
       heading: 'ഞങ്ങൾ നിർമ്മിക്കുന്നത്',
-      body: 'ഉരുക്കൽ, കാസ്റ്റിംഗ്, മെഷീനിംഗ്, ഫാബ്രിക്കേഷൻ — എല്ലാം ഒരേ യൂണിറ്റിൽ. കേരളത്തിലുടനീളം കെ.എസ്.ഇ.ബി ഇലക്ട്രിക്കൽ ഡിവിഷനുകൾക്കും കോൺട്രാക്ടർമാർക്കും വ്യവസായ സ്ഥാപനങ്ങൾക്കും ഞങ്ങൾ വിതരണം ചെയ്യുന്നു. ഡ്രോയിംഗോ സാമ്പിളോ ഫോട്ടോയോ വാട്ട്‌സ്ആപ്പിൽ അയക്കൂ, ഞങ്ങൾ ക്വട്ടേഷൻ നൽകാം.',
+      body: 'ഉരുക്കൽ, കാസ്റ്റിംഗ്, മെഷീനിംഗ്, ഫാബ്രിക്കേഷൻ — എല്ലാം ഒരേ യൂണിറ്റിൽ. കെ.എസ്.ഇ.ബി ഇലക്ട്രിക്കൽ, ട്രാൻസ്മിഷൻ, ജനറേഷൻ സർക്കിളുകൾ, ടവർ ലൈനുകൾ എന്നിവയ്ക്കും കേരളത്തിലുടനീളമുള്ള കോൺട്രാക്ടർമാർക്കും വ്യവസായ സ്ഥാപനങ്ങൾക്കും ഞങ്ങൾ വിതരണം ചെയ്യുന്നു — കൂടാതെ ഇന്ത്യയിലുടനീളമുള്ള പ്രമുഖ മാറ്റ് നിർമ്മാതാക്കൾക്ക് മാറ്റ് മോൾഡുകളും. ഡ്രോയിംഗോ സാമ്പിളോ ഫോട്ടോയോ വാട്ട്‌സ്ആപ്പിൽ അയക്കൂ, ഞങ്ങൾ ക്വട്ടേഷൻ നൽകാം.',
     },
 
     strip: {
@@ -430,7 +430,7 @@ export const ui = {
           slug: 'moulds',
           name: 'റബ്ബർ, കയർ മാറ്റ് മോൾഡുകൾ',
           summary: 'റബ്ബർ മാറ്റ്, കയർ മാറ്റ് നിർമ്മാണത്തിനുള്ള മോൾഡുകൾ — ഞങ്ങൾ നിർമ്മിക്കുന്നത് മോൾഡാണ്, മാറ്റല്ല.',
-          bullets: ['റബ്ബർ മാറ്റ്, കയർ മാറ്റ് മോൾഡുകൾ', 'നിങ്ങളുടെ സാമ്പിൾ മാറ്റ്, ഡ്രോയിംഗ് അല്ലെങ്കിൽ ഫോട്ടോ അനുസരിച്ച്', 'ഏത് വലുപ്പത്തിലും — 50×40, 70×40, 75×45, 80×50 സെ.മീ എന്നിവയും മറ്റും', 'ഡോർ മോൾഡുകളും പാനൽ മോൾഡുകളും', 'സി.എൻ.സി മെഷീൻ ചെയ്ത മോൾഡ് പ്ലേറ്റുകൾ', 'നിലവിലുള്ള മോൾഡുകളുടെ അറ്റകുറ്റപ്പണി'],
+          bullets: ['റബ്ബർ മാറ്റ്, കയർ മാറ്റ് മോൾഡുകൾ', 'ഇന്ത്യയിലുടനീളമുള്ള പ്രമുഖ മാറ്റ് നിർമ്മാതാക്കൾക്ക് വിതരണം', 'നിങ്ങളുടെ സാമ്പിൾ മാറ്റ്, ഡ്രോയിംഗ് അല്ലെങ്കിൽ ഫോട്ടോ അനുസരിച്ച്', 'ഏത് വലുപ്പത്തിലും — 50×40, 70×40, 75×45, 80×50 സെ.മീ എന്നിവയും മറ്റും', 'ഡോർ മോൾഡുകളും പാനൽ മോൾഡുകളും', 'സി.എൻ.സി മെഷീൻ ചെയ്ത മോൾഡ് പ്ലേറ്റുകൾ', 'നിലവിലുള്ള മോൾഡുകളുടെ അറ്റകുറ്റപ്പണി'],
         },
         {
           slug: 'dtr-boxes',
@@ -461,7 +461,7 @@ export const ui = {
       lead: '1991 മുതൽ ചിങ്ങവനം, കോട്ടയത്ത് പ്രവർത്തിക്കുന്ന ഒരു കുടുംബ ഫൗണ്ടറി.',
       body: [
         'കേരള സ്റ്റേറ്റ് ഇലക്ട്രിസിറ്റി ബോർഡിൽ നിന്ന് വിരമിച്ച എക്സിക്യൂട്ടീവ് എഞ്ചിനീയറായിരുന്ന പരേതനായ ശ്രീ കെ. എ. കമലാസനൻ 1991-ൽ റോയൽ ഫൗണ്ടറി സ്ഥാപിച്ചു. അന്നുമുതൽ ഒരു കുടുംബ സ്ഥാപനമായി, ഇന്ന് ശ്രീമതി മീനാകുമാരിയുടെ ഉടമസ്ഥതയിൽ പ്രവർത്തിക്കുന്നു. 2013–14 വർഷത്തെ എം.എസ്.എം.ഇ ജില്ലാതല അവാർഡുകളിൽ കേരള സർക്കാരിന്റെ വ്യവസായ വാണിജ്യ വകുപ്പ് അവരെ കോട്ടയം ജില്ലയിലെ മികച്ച സംരംഭകയായി (വനിതാ വിഭാഗം) തിരഞ്ഞെടുത്തു.',
-        'എല്ലാത്തരം ഫെറസ്, നോൺ-ഫെറസ് കാസ്റ്റിംഗുകളും ഞങ്ങൾ ഏറ്റെടുക്കുന്നു. എച്ച്.വി സബ്‌സ്റ്റേഷനുകളിലെയും ട്രാൻസ്മിഷൻ ലൈനുകളിലെയും ഇലക്ട്രിക്കൽ ഉപകരണങ്ങൾക്കുള്ള ക്ലാമ്പുകളും ടെർമിനൽ കണക്ടറുകളുമാണ് ഞങ്ങളുടെ പ്രധാന ഉൽപ്പന്നം — മുപ്പത് വർഷത്തോളം വെയിലും മഴയും കൊണ്ട് പോസ്റ്റിൽ നിൽക്കേണ്ട ഭാഗങ്ങൾ. റബ്ബർ മാറ്റ്, കയർ മാറ്റ് മോൾഡുകളും, സ്റ്റെയിൻലെസ് സ്റ്റീൽ ഡി.ടി.ആർ ബോക്സുകളും, എർത്തിംഗ് ഉൽപ്പന്നങ്ങളും, ഫാബ്രിക്കേഷൻ ജോലികളും ഞങ്ങൾ ചെയ്യുന്നു.',
+        'എല്ലാത്തരം ഫെറസ്, നോൺ-ഫെറസ് കാസ്റ്റിംഗുകളും ഞങ്ങൾ ഏറ്റെടുക്കുന്നു. എച്ച്.വി സബ്‌സ്റ്റേഷനുകളിലെയും ട്രാൻസ്മിഷൻ ലൈനുകളിലെയും ഇലക്ട്രിക്കൽ ഉപകരണങ്ങൾക്കുള്ള ക്ലാമ്പുകളും ടെർമിനൽ കണക്ടറുകളുമാണ് ഞങ്ങളുടെ പ്രധാന ഉൽപ്പന്നം — മുപ്പത് വർഷത്തോളം വെയിലും മഴയും കൊണ്ട് പോസ്റ്റിൽ നിൽക്കേണ്ട ഭാഗങ്ങൾ. ഇവ കെ.എസ്.ഇ.ബി ഇലക്ട്രിക്കൽ, ട്രാൻസ്മിഷൻ, ജനറേഷൻ സർക്കിളുകൾ, ടവർ ലൈനുകൾ എന്നിവയ്ക്കും കേരളത്തിലുടനീളമുള്ള കോൺട്രാക്ടർമാർക്കും വ്യവസായ സ്ഥാപനങ്ങൾക്കും പോകുന്നു. ഞങ്ങളുടെ റബ്ബർ മാറ്റ്, കയർ മാറ്റ് മോൾഡുകൾ ഇന്ത്യയിലുടനീളമുള്ള പ്രമുഖ മാറ്റ് നിർമ്മാതാക്കൾക്ക് പോകുന്നു. സ്റ്റെയിൻലെസ് സ്റ്റീൽ ഡി.ടി.ആർ ബോക്സുകളും, എർത്തിംഗ് ഉൽപ്പന്നങ്ങളും, ഫാബ്രിക്കേഷൻ ജോലികളും ഞങ്ങൾ ചെയ്യുന്നു.',
         'ഉരുക്കൽ, കാസ്റ്റിംഗ്, ടേണിംഗ്, മില്ലിംഗ്, ഡ്രില്ലിംഗ്, സി.എൻ.സി ജോലികൾ എന്നിവയെല്ലാം നാട്ടകത്തുള്ള ഞങ്ങളുടെ സ്വന്തം യൂണിറ്റിൽ നടക്കുന്നു. ഭൂരിഭാഗവും ഉപഭോക്താവിന്റെ ഡ്രോയിംഗ് അനുസരിച്ചാണ് — അതുകൊണ്ട് ഒറ്റ ഭാഗമായാലും ആവർത്തിച്ചുള്ള ഉൽപ്പാദനമായാലും ഞങ്ങൾക്ക് ഒരുപോലെ.',
         'ചെറുതും കുടുംബം നടത്തുന്നതുമാണ് എന്നത് ഞങ്ങളുടെ ബലമാണ്. നിങ്ങൾക്കും ഞങ്ങളുടെ ഷോപ്പ് ഫ്ലോറിനും ഇടയിൽ ഒരു കോൾ സെന്ററുമില്ല — വിളിച്ചാൽ ജോലിയുടെ സ്ഥിതി കൃത്യമായി പറയാൻ കഴിയുന്ന ആൾ തന്നെ മറുപടി പറയും.',
       ],
