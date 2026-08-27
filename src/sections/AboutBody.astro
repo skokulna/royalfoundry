@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import showcase from '../assets/products/showcase.jpg';
+import cnc from '../assets/awards/cnc.jpg';
 import proprietor from '../assets/awards/proprietor.jpg';
 import { t, type Lang } from '../i18n/ui';
 import Awards from '../components/Awards.astro';
@@ -29,8 +29,9 @@ const c = t(lang);
       </figure>
       <p>{c.about.body[1]}</p>
       <figure class="about__fig">
-        <Image src={showcase} alt={c.products.items[0].name} widths={[600, 1100]}
+        <Image src={cnc} alt={c.awards.cnc} widths={[600, 1100]}
                sizes="(min-width: 900px) 620px, 92vw" loading="lazy" />
+        <figcaption>{c.awards.cnc}</figcaption>
       </figure>
       {c.about.body.slice(2).map((para) => <p>{para}</p>)}
     </div>

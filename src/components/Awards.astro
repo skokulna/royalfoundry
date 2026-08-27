@@ -4,6 +4,7 @@ import plaque from '../assets/awards/plaque.jpg';
 import certificate from '../assets/awards/certificate.jpg';
 import ceremony from '../assets/awards/ceremony.jpg';
 import trophy from '../assets/awards/trophy.jpg';
+import dic from '../assets/awards/dic-award.jpg';
 import { t, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; }
@@ -27,17 +28,22 @@ const c = t(lang);
     <div class="awards__pair">
       <figure>
         <Image src={certificate} alt={c.awards.certificate} widths={[600, 1200]}
-               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+               sizes="(min-width: 1100px) 280px, (min-width: 620px) 45vw, 92vw" loading="lazy" />
         <figcaption>{c.awards.certificate}</figcaption>
       </figure>
       <figure>
         <Image src={ceremony} alt={c.awards.ceremony} widths={[600, 1100]}
-               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+               sizes="(min-width: 1100px) 280px, (min-width: 620px) 45vw, 92vw" loading="lazy" />
         <figcaption>{c.awards.ceremony}</figcaption>
       </figure>
       <figure>
+        <Image src={dic} alt={c.awards.dic} widths={[600, 1200]}
+               sizes="(min-width: 1100px) 280px, (min-width: 620px) 45vw, 92vw" loading="lazy" />
+        <figcaption>{c.awards.dic}</figcaption>
+      </figure>
+      <figure>
         <Image src={trophy} alt={c.awards.trophy} widths={[600, 1100]}
-               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+               sizes="(min-width: 1100px) 280px, (min-width: 620px) 45vw, 92vw" loading="lazy" />
         <figcaption>{c.awards.trophy}</figcaption>
       </figure>
     </div>
@@ -65,6 +71,6 @@ const c = t(lang);
 
   .awards__pair { display: grid; gap: 1.25rem; }
   @media (min-width: 620px) { .awards__pair { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 980px) { .awards__pair { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1100px) { .awards__pair { grid-template-columns: repeat(4, 1fr); } }
   .awards__pair img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center; }
 </style>

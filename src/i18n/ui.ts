@@ -61,7 +61,7 @@ export const ui = {
       founder: {
         name: 'Late Sri K. A. Kamalasanan',
         role: 'Founder',
-        note: 'Executive Engineer, Kerala State Electricity Board. He founded Royal Foundry in 1991.',
+        note: 'Retired Executive Engineer, Kerala State Electricity Board. He founded Royal Foundry in 1991.',
       },
       proprietor: {
         name: 'Smt. Meenakumari',
@@ -76,6 +76,8 @@ export const ui = {
       certificate: 'Best Entrepreneur Award 2013–14 certificate, Government of Kerala',
       trophy: 'MSME District Level Award memento, 2013–14',
       ceremony: 'Receiving the MSME District Level Award, 2013–14',
+      dic: 'Receiving an award from the District Industries Centre, Kottayam',
+      cnc: 'Smt. Meenakumari at the CNC machine',
       proprietor: 'Smt. Meenakumari, proprietor, at the works office',
       signboard: 'Royal Foundry, Chingavanam, Kottayam',
     },
@@ -214,7 +216,7 @@ export const ui = {
       heading: 'About Royal Foundry',
       lead: 'A family-run foundry at Chingavanam, Kottayam — casting since 1991.',
       body: [
-        'Royal Foundry was founded in 1991 by the late Sri K. A. Kamalasanan, an Executive Engineer with the Kerala State Electricity Board. It has run as a family proprietorship ever since, today under Smt. Meenakumari. In 2013–14 the Department of Industries and Commerce, Government of Kerala, named her Best Entrepreneur for Kottayam District in the Women Category at the MSME District Level Awards.',
+        'Royal Foundry was founded in 1991 by the late Sri K. A. Kamalasanan, a retired Executive Engineer of the Kerala State Electricity Board. It has run as a family proprietorship ever since, today under Smt. Meenakumari. In 2013–14 the Department of Industries and Commerce, Government of Kerala, named her Best Entrepreneur for Kottayam District in the Women Category at the MSME District Level Awards.',
         'We undertake all kinds of ferrous and non-ferrous castings. Our main line is clamps and terminal connectors for electrical equipment in H.V. substations and transmission lines — the kind of component that spends thirty years outdoors on a pole and is simply expected to keep working. We also manufacture rubber mat and coir mat moulds, stainless steel DTR boxes, earthing products, and general fabrication job work.',
         'Melting, casting, turning, milling, drilling and CNC work all happen in our own unit at Nattakom. Most of what we make is to customer drawings, which means we are as comfortable with a single replacement part as with a repeat production run.',
         'Being small and family-run is the point. There is no call centre between you and the shop floor — when you ring about a job, you speak to someone who can tell you exactly where it stands.',
@@ -303,7 +305,7 @@ export const ui = {
       founder: {
         name: 'പരേതനായ ശ്രീ കെ. എ. കമലാസനൻ',
         role: 'സ്ഥാപകൻ',
-        note: 'കേരള സ്റ്റേറ്റ് ഇലക്ട്രിസിറ്റി ബോർഡിൽ എക്സിക്യൂട്ടീവ് എഞ്ചിനീയർ. 1991-ൽ അദ്ദേഹം റോയൽ ഫൗണ്ടറി സ്ഥാപിച്ചു.',
+        note: 'കേരള സ്റ്റേറ്റ് ഇലക്ട്രിസിറ്റി ബോർഡിൽ നിന്ന് വിരമിച്ച എക്സിക്യൂട്ടീവ് എഞ്ചിനീയർ. 1991-ൽ അദ്ദേഹം റോയൽ ഫൗണ്ടറി സ്ഥാപിച്ചു.',
       },
       proprietor: {
         name: 'ശ്രീമതി മീനാകുമാരി',
@@ -318,6 +320,8 @@ export const ui = {
       certificate: 'മികച്ച സംരംഭക അവാർഡ് 2013–14 സർട്ടിഫിക്കറ്റ്, കേരള സർക്കാർ',
       trophy: 'എം.എസ്.എം.ഇ ജില്ലാതല അവാർഡ് ഫലകം, 2013–14',
       ceremony: 'എം.എസ്.എം.ഇ ജില്ലാതല അവാർഡ് ഏറ്റുവാങ്ങുന്നു, 2013–14',
+      dic: 'ജില്ലാ വ്യവസായ കേന്ദ്രം കോട്ടയത്തിൽ നിന്ന് അവാർഡ് ഏറ്റുവാങ്ങുന്നു',
+      cnc: 'ശ്രീമതി മീനാകുമാരി സി.എൻ.സി മെഷീനിൽ',
       proprietor: 'ശ്രീമതി മീനാകുമാരി, ഉടമ, ഓഫീസിൽ',
       signboard: 'റോയൽ ഫൗണ്ടറി, ചിങ്ങവനം, കോട്ടയം',
     },
@@ -456,7 +460,7 @@ export const ui = {
       heading: 'റോയൽ ഫൗണ്ടറിയെക്കുറിച്ച്',
       lead: '1991 മുതൽ ചിങ്ങവനം, കോട്ടയത്ത് പ്രവർത്തിക്കുന്ന ഒരു കുടുംബ ഫൗണ്ടറി.',
       body: [
-        'കേരള സ്റ്റേറ്റ് ഇലക്ട്രിസിറ്റി ബോർഡിലെ എക്സിക്യൂട്ടീവ് എഞ്ചിനീയറായിരുന്ന പരേതനായ ശ്രീ കെ. എ. കമലാസനൻ 1991-ൽ റോയൽ ഫൗണ്ടറി സ്ഥാപിച്ചു. അന്നുമുതൽ ഒരു കുടുംബ സ്ഥാപനമായി, ഇന്ന് ശ്രീമതി മീനാകുമാരിയുടെ ഉടമസ്ഥതയിൽ പ്രവർത്തിക്കുന്നു. 2013–14 വർഷത്തെ എം.എസ്.എം.ഇ ജില്ലാതല അവാർഡുകളിൽ കേരള സർക്കാരിന്റെ വ്യവസായ വാണിജ്യ വകുപ്പ് അവരെ കോട്ടയം ജില്ലയിലെ മികച്ച സംരംഭകയായി (വനിതാ വിഭാഗം) തിരഞ്ഞെടുത്തു.',
+        'കേരള സ്റ്റേറ്റ് ഇലക്ട്രിസിറ്റി ബോർഡിൽ നിന്ന് വിരമിച്ച എക്സിക്യൂട്ടീവ് എഞ്ചിനീയറായിരുന്ന പരേതനായ ശ്രീ കെ. എ. കമലാസനൻ 1991-ൽ റോയൽ ഫൗണ്ടറി സ്ഥാപിച്ചു. അന്നുമുതൽ ഒരു കുടുംബ സ്ഥാപനമായി, ഇന്ന് ശ്രീമതി മീനാകുമാരിയുടെ ഉടമസ്ഥതയിൽ പ്രവർത്തിക്കുന്നു. 2013–14 വർഷത്തെ എം.എസ്.എം.ഇ ജില്ലാതല അവാർഡുകളിൽ കേരള സർക്കാരിന്റെ വ്യവസായ വാണിജ്യ വകുപ്പ് അവരെ കോട്ടയം ജില്ലയിലെ മികച്ച സംരംഭകയായി (വനിതാ വിഭാഗം) തിരഞ്ഞെടുത്തു.',
         'എല്ലാത്തരം ഫെറസ്, നോൺ-ഫെറസ് കാസ്റ്റിംഗുകളും ഞങ്ങൾ ഏറ്റെടുക്കുന്നു. എച്ച്.വി സബ്‌സ്റ്റേഷനുകളിലെയും ട്രാൻസ്മിഷൻ ലൈനുകളിലെയും ഇലക്ട്രിക്കൽ ഉപകരണങ്ങൾക്കുള്ള ക്ലാമ്പുകളും ടെർമിനൽ കണക്ടറുകളുമാണ് ഞങ്ങളുടെ പ്രധാന ഉൽപ്പന്നം — മുപ്പത് വർഷത്തോളം വെയിലും മഴയും കൊണ്ട് പോസ്റ്റിൽ നിൽക്കേണ്ട ഭാഗങ്ങൾ. റബ്ബർ മാറ്റ്, കയർ മാറ്റ് മോൾഡുകളും, സ്റ്റെയിൻലെസ് സ്റ്റീൽ ഡി.ടി.ആർ ബോക്സുകളും, എർത്തിംഗ് ഉൽപ്പന്നങ്ങളും, ഫാബ്രിക്കേഷൻ ജോലികളും ഞങ്ങൾ ചെയ്യുന്നു.',
         'ഉരുക്കൽ, കാസ്റ്റിംഗ്, ടേണിംഗ്, മില്ലിംഗ്, ഡ്രില്ലിംഗ്, സി.എൻ.സി ജോലികൾ എന്നിവയെല്ലാം നാട്ടകത്തുള്ള ഞങ്ങളുടെ സ്വന്തം യൂണിറ്റിൽ നടക്കുന്നു. ഭൂരിഭാഗവും ഉപഭോക്താവിന്റെ ഡ്രോയിംഗ് അനുസരിച്ചാണ് — അതുകൊണ്ട് ഒറ്റ ഭാഗമായാലും ആവർത്തിച്ചുള്ള ഉൽപ്പാദനമായാലും ഞങ്ങൾക്ക് ഒരുപോലെ.',
         'ചെറുതും കുടുംബം നടത്തുന്നതുമാണ് എന്നത് ഞങ്ങളുടെ ബലമാണ്. നിങ്ങൾക്കും ഞങ്ങളുടെ ഷോപ്പ് ഫ്ലോറിനും ഇടയിൽ ഒരു കോൾ സെന്ററുമില്ല — വിളിച്ചാൽ ജോലിയുടെ സ്ഥിതി കൃത്യമായി പറയാൻ കഴിയുന്ന ആൾ തന്നെ മറുപടി പറയും.',
