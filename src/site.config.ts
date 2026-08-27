@@ -19,15 +19,17 @@ export const site = {
   landline: '+914812432005',                // Office: 0481-2432005
   whatsapp: '919447375292',                 // confirmed: the main mobile, and the one on WhatsApp
 
-  // Live address. Keep the Gmail here until Zoho has verified the domain and
-  // contact@royalfoundry.in actually receives mail — then swap the two lines,
-  // rebuild, and push. Publishing an address that bounces is worse than a Gmail.
+  // Live address. Domain email is deferred — Zoho withdrew its Forever Free
+  // plan, so contact@royalfoundry.in would now cost money. Checked Aug 2026:
+  //   Zoho Mail Lite, 1 user   Rs708/yr + GST  (contact@ as the mailbox,
+  //                            cpmeena@ as an alias into the same inbox)
+  //   Zoho Mail Lite, 2 users  Rs1,416/yr + GST
+  //   Cloudflare Email Routing Rs0, but forwarding only — replies would come
+  //                            from the Gmail unless an SMTP relay is added
+  // To switch later: buy the plan, verify the domain, add the MX/SPF/DKIM
+  // records at Cloudflare, then change the line below and push.
   email: 'royalfoundrychingavanam@gmail.com',
-  // email: 'contact@royalfoundry.in',        <- switch to this once Zoho works
-
-  // Planned mailboxes on the domain (Zoho free plan allows 5):
-  //   contact@royalfoundry.in   public address, website + invoices
-  //   cpmeena@royalfoundry.in   proprietor, direct correspondence
+  // email: 'contact@royalfoundry.in',
 
   gstin: '32ARMPM1413A1ZI',
   udyam: 'UDYAM-KL-07-0001298',             // MSME — Micro, Manufacturing

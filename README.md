@@ -98,36 +98,40 @@ For mould patterns especially: if you have a name you actually use with
 customers, use that rather than a description of the geometry. A real pattern
 name is much better for search than "diamond lattice mould".
 
-## Before it goes live
+## Live
 
-- [ ] Register the domain, then set `site:` in `astro.config.mjs` and the
-      `Sitemap:` line in `public/robots.txt` to the real URL
-- [ ] Confirm which mobile is on WhatsApp (`whatsapp` in site.config)
-- [ ] Confirm working hours — currently Mon–Sat, 9–6
-- [ ] **Add a photo of an earth rod** — `src/assets/products/earthing.jpg`.
-      This is the only category with no photo; it shows an icon instead.
-- [ ] Check the 23 electrical product labels and the 15 mould labels — they are
-      my reading of the photos. Corrections go in `gallery.captions` in
-      `src/i18n/ui.ts` (both `en` and `ml`).
-- [ ] **Have a Malayalam speaker proofread `src/i18n/ui.ts`** — the Malayalam
-      was written from the English and has not been checked by a native speaker
-- [ ] Decide whether to keep the proprietor's name on the About page.
-      It currently reads "Smt. Meenakumari", which matches the MSME award
-      citation. Remove it from `about.body` in `src/i18n/ui.ts` if preferred.
-- [ ] Decide whether to publish the Udyam number and GSTIN. Both are on the
-      Contact page and in the footer. Normal for an Indian B2B site, but it is
-      your call — remove from `Footer.astro` / `ContactBody.astro` if not.
-- [ ] Replace `public/logo.png` if a higher-resolution or vector original turns
-      up — the current one was recovered from the invoice scan (185×141)
+The site is deployed at **https://royalfoundry.in**
 
-The Google Maps location is set: the shared link resolved to
-9.5151455, 76.5275791, which now drives the Contact page map, the "Get
-directions" button, and the coordinates in the page's structured data.
+| | |
+|---|---|
+| Registrar | Hostinger — renews 27 Aug 2029, auto-renew on |
+| DNS + hosting | Cloudflare (nameservers `paul` / `sureena`) |
+| Repo | `github.com/skokulna/royalfoundry` (private) |
+| Deploys | automatic on push to `main`, ~4 minutes |
+| Cost | ~Rs800/year, the domain only |
 
-Confirmed from the documents, so no longer open questions: PIN `686531`,
-the full street address, established 1991, and that Royal Foundry supplies
-KSEB (there is an invoice to the Kundara sub-division and a quotation letter
-to the Deputy Chief Engineer, Electrical Circle, Harippad).
+Change anything in `src/`, commit, push — Cloudflare rebuilds and publishes.
+
+## Still open
+
+- [ ] **Malayalam proofread by a native speaker.** The Malayalam throughout was
+      written from the English and has not been checked by anyone who speaks it.
+      This is the largest remaining risk on the site.
+- [ ] **Domain email** — deferred. Zoho's free plan no longer exists; Mail Lite
+      is ~Rs835/yr for one mailbox with `cpmeena@` as an alias. See the note in
+      `src/site.config.ts`. The site currently shows the Gmail, which works.
+- [ ] **Google Search Console** — verify the domain and submit
+      `https://royalfoundry.in/sitemap-index.xml` to speed up indexing.
+- [ ] Photos of a finished DTR box — the eight on the site are video stills
+      (848x478) and look soft when enlarged in the lightbox.
+- [ ] The exact name of the District Industries Centre award; its caption on the
+      About page is deliberately vague because the banner is partly obscured.
+- [ ] Check the 49 gallery product labels in `files/*/GROUPS.md`.
+
+Confirmed and done: PIN `686531`, the full street address, established 1991,
+24-hour working, both mobiles plus the landline, the Google Maps location,
+and that the hardware goes to KSEB electrical, transmission and generation
+circles and tower lines.
 
 ## Deploying to Cloudflare Pages
 
