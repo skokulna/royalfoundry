@@ -1,164 +1,220 @@
 # Royal Foundry — website
 
-Static site for Royal Foundry, Chingavanam, Kottayam.
-Built with [Astro](https://astro.build). English + Malayalam.
+Live at **https://royalfoundry.in**
+
+Static bilingual site (English + Malayalam) for Royal Foundry, Chingavanam,
+Kottayam. Built with [Astro](https://astro.build), hosted on Cloudflare.
+
+---
 
 ## Run it locally
 
 ```bash
 npm install
 npm run dev              # http://localhost:4321
-npm run dev -- --host    # also opens it to your phone on the same wifi
-npm run build            # output goes to dist/
+npm run dev -- --host    # also reachable from your phone on the same wifi
+npm run build            # writes dist/
 ```
 
-## Where things live
-
-| I want to change… | Edit this |
-|---|---|
-| Phone, email, address, GSTIN, hours, map | `src/site.config.ts` |
-| Any text on the site, in either language | `src/i18n/ui.ts` |
-| Product photos | drop into `src/assets/products/` — see the README there |
-| Gallery captions / product names | `files/*/GROUPS.md`, then `npm run sync:captions` |
-| Colours, fonts, spacing | `src/styles/global.css` |
-| Page structure | `src/sections/*.astro` |
-
-`src/site.config.ts` and `src/i18n/ui.ts` cover almost everything. You should
-rarely need to touch the `.astro` files.
-
-Adding a product: add an entry to the `products.items` array in **both** the
-`en` and `ml` blocks of `src/i18n/ui.ts`, keeping the same `slug` in each.
+The project sits on the Windows drive under WSL, where file-change events do
+not propagate. `astro.config.mjs` therefore turns on watcher polling — without
+it `npm run dev` never hot-reloads and you would have to restart after every
+edit.
 
 ## Pages
 
 ```
 /            /ml/            Home
-/products    /ml/products    Products
-/about       /ml/about       About
-/contact     /ml/contact     Contact
+/products    /ml/products    Products  (six product lines + 57-photo gallery)
+/about       /ml/about       About     (story, awards, founder and proprietor)
+/contact     /ml/contact     Contact   (phones, WhatsApp, map, signboard)
+/404                         Not found (bilingual)
 ```
 
-English is the default; Malayalam sits under `/ml/`. The header has a toggle,
-and `hreflang` tags tell Google the two versions are the same page.
+English is the default; Malayalam lives under `/ml/`. The header carries a
+toggle, and `hreflang` tags tell Google the two are the same page. A sitemap is
+generated at `/sitemap-index.xml` and referenced from `robots.txt`.
 
-## Where the content came from
+## Where things live
 
-Everything on the site is sourced from the documents in `/files`:
+| I want to change… | Edit this |
+|---|---|
+| Phones, email, address, GSTIN, Udyam, hours, map | `src/site.config.ts` |
+| Any text on the site, in either language | `src/i18n/ui.ts` |
+| Which photos a product card cycles through | `ROTATION` in `src/components/ProductGrid.astro` |
+| Gallery captions / product names | `files/*/GROUPS.md`, then `npm run sync:captions` |
+| Colours, fonts, spacing | `src/styles/global.css` |
+| Page structure | `src/sections/*.astro`, `src/components/*.astro` |
+| Deploy configuration | `wrangler.jsonc` |
+
+`src/site.config.ts` and `src/i18n/ui.ts` cover almost everything. You should
+rarely need to open a `.astro` file.
+
+**Adding a product line:** add an entry to `products.items` in **both** the `en`
+and `ml` blocks of `src/i18n/ui.ts` with the same `slug`, add an icon path for
+that slug in `ProductGrid.astro`, and optionally list photos for it in
+`ROTATION`.
+
+---
+
+## Photos
+
+### Where each came from
 
 | Source | What it gave us |
 |---|---|
-| Tax invoice | Mobiles, email, GSTIN, aluminium T-clamps for A/B switches (HSN 7601) |
-| GST certificate | Full street address, proprietorship, registered since 01/07/2017 |
-| Udyam certificate | Established 1991, `UDYAM-KL-07-0001298`, non-ferrous casting (NIC 24320) |
-| Word letterhead | The company's own description of itself, landline `0481-2432005` |
-| Promo video | Home page banner, moulds photo, About page photo |
-| `files/clamps/` | 53 photos → 23 distinct products (see `files/clamps/GROUPS.md`) |
+| `files/…Tax Invoice….pdf` | Mobiles, email, GSTIN, aluminium T-clamps for A/B switches (HSN 7601) |
+| `files/…gst certificate.pdf` | Full street address, proprietorship, registered 01/07/2017 |
+| `files/…Udyam….pdf` | Established 1991, `UDYAM-KL-07-0001298`, non-ferrous casting (NIC 24320) |
+| `files/…Word Template.docx` | The company's own description of itself, landline `0481-2432005` |
+| `files/RoyalFoundry_Video.mp4` | Home banner, signboard, award plaque/certificate/trophy, founder, CNC stills |
+| `files/DTR_Box_Video.mp4` | The eight DTR box photos |
+| `files/clamps/` | 53 photos → 34 distinct electrical products |
 | `files/mat-moulds/` | 17 photos → 15 distinct mat moulds |
+| `files/pics/` | Founder portrait, MSME and DIC award photos, Meenakumari at the CNC |
 
-### Photos
+The clamp and mould photos were grouped by object — many were the same item shot
+from several angles — and the sharpest frame of each group kept. Several award
+photos originally taken from the video were later replaced with the supplied
+originals, which are far clearer.
 
-The 53 clamp photos were grouped into **23 distinct products** — many were the
-same item shot from different angles. The sharpest frame of each group was
-picked and copied to `files/clamps/best/`, and those 23 now form the gallery on
-the Products page. `files/clamps/GROUPS.md` shows which originals went into each
-group, so you can check the grouping and swap a pick if you prefer another angle.
+### Gallery structure
+
+57 photos in three groups, defined by folder:
+
+```
+src/assets/gallery/electrical/   34   clamps, connectors, A/B switch parts, earthing
+src/assets/gallery/dtr/           8   DTR boxes
+src/assets/gallery/moulds/       15   rubber and coir mat moulds
+```
+
+Clicking any of them opens a lightbox (native `<dialog>`, no library) with
+arrow-key navigation across the whole gallery.
 
 ### Adding or renaming a gallery product
 
 The worksheets are the source of truth:
 
-- `files/clamps/GROUPS.md` — electrical hardware
+- `files/clamps/GROUPS.md` — electrical hardware and DTR boxes
 - `files/mat-moulds/GROUPS.md` — mat moulds
 
-**To rename**, edit the Product name column. **To add**, drop the photo into
-`files/clamps/best/` and add a row for it (any placeholder key will do — it gets
-rewritten). **To remove**, delete the row, the image in `files/clamps/best/`,
-the image in `src/assets/gallery/…`, and the two caption lines in
-`src/i18n/ui.ts`.
+**To rename**, edit the *Product name* column. **To add**, drop the photo into
+`files/clamps/best/` and add a row (any placeholder key — it gets rewritten).
+**To remove**, delete the row, the image in `files/clamps/best/`, the image in
+`src/assets/gallery/…`, and the two caption lines in `src/i18n/ui.ts`.
 
 Then:
 
 ```bash
-npm run rekey                      # shows what would change
-npm run rekey -- --write           # renumbers keys + renames image files
+npm run rekey                      # dry run — shows what would change
+npm run rekey -- --write           # renumbers keys and renames image files
 npm run sync:captions -- --write   # copies your names into the English captions
 npm run build
 ```
 
 `rekey` keeps keys, filenames and both worksheet columns in step with the
-product names, and renumbers everything in row order — so moving a row up or
-down in the worksheet reorders the gallery. It is safe to re-run; a second run
-is a no-op. `sync:captions` then lists any Malayalam captions that need
-re-translating to match. Ask Claude for that pass, or edit the `ml` block.
+product names, renumbering in row order — so moving a row reorders the gallery.
+It is idempotent and aborts if a new key would collide with an existing one.
+`sync:captions` then lists the Malayalam captions that need re-translating.
 
-Do not rename image files by hand — `rekey` does it, and doing both will
-desynchronise the captions.
+**Do not rename image files by hand** — `rekey` does it, and doing both
+desynchronises the captions.
 
-For mould patterns especially: if you have a name you actually use with
-customers, use that rather than a description of the geometry. A real pattern
-name is much better for search than "diamond lattice mould".
+Product-card rotations in `ProductGrid.astro` reference photos **by name without
+the leading number**, so renumbering cannot silently break them.
 
-## Live
+For mould patterns: if you have a name you use with customers, use that rather
+than a description of the geometry. A real pattern name is far better for search
+than "diamond lattice mould".
 
-The site is deployed at **https://royalfoundry.in**
+---
+
+## Deployment
+
+Already set up. Push to `main` and Cloudflare rebuilds and publishes in about
+four minutes.
 
 | | |
 |---|---|
-| Registrar | Hostinger — renews 27 Aug 2029, auto-renew on |
-| DNS + hosting | Cloudflare (nameservers `paul` / `sureena`) |
+| Registrar | Hostinger — renews 27 Aug 2029, auto-renew on, domain lock on |
+| DNS | Cloudflare (nameservers `paul` / `sureena`) |
+| Hosting | Cloudflare Workers static assets, project `royalfoundry` |
 | Repo | `github.com/skokulna/royalfoundry` (private) |
-| Deploys | automatic on push to `main`, ~4 minutes |
-| Cost | ~Rs800/year, the domain only |
+| Build | `npm run build` → `dist/`, deployed by `npx wrangler deploy` |
+| TLS | Automatic. HTTP 301s to HTTPS; apex and `www` both work |
+| Cost | ~Rs800/year — the domain. Hosting is free at this size. |
 
-Change anything in `src/`, commit, push — Cloudflare rebuilds and publishes.
+`wrangler.jsonc` is what makes `npx wrangler deploy` work: it points Cloudflare
+at `dist/` and sets `404.html` as the not-found page. Without it the deploy
+fails, because the dashboard's default deploy command expects that config.
+
+`public/_headers` sets caching and basic security headers; it is honoured by
+Cloudflare's static-asset serving and verified live (`x-content-type-options`,
+`x-frame-options`).
+
+**Cloudflare's "managed robots.txt" is deliberately off.** When on, it injects
+`Disallow` rules for GPTBot, ClaudeBot, Google-Extended and others, and risks
+overwriting the `Sitemap:` line. For a manufacturer that wants to be found —
+including by AI assistants — blocking them is self-defeating.
+
+---
+
+## Page weights
+
+| | HTML + CSS | Images |
+|---|---|---|
+| Home | ~55 KB | ~2.5 MB across 33, all lazy-loaded |
+| Products | ~126 KB | ~6.5 MB across 106, all lazy-loaded |
+| About | ~41 KB | ~0.5 MB across 9 |
+
+Images are generated as responsive WebP at build time and only fetched as they
+scroll into view, so a first visit costs far less than those totals. Product
+cards cycle through 10 photos on `/products` but only 4 on the home page —
+`frames={4}` in `HomeBody.astro` — to keep the landing page light on a mobile
+connection.
+
+---
 
 ## Still open
 
 - [ ] **Malayalam proofread by a native speaker.** The Malayalam throughout was
       written from the English and has not been checked by anyone who speaks it.
       This is the largest remaining risk on the site.
-- [ ] **Domain email** — deferred. Zoho's free plan no longer exists; Mail Lite
-      is ~Rs835/yr for one mailbox with `cpmeena@` as an alias. See the note in
-      `src/site.config.ts`. The site currently shows the Gmail, which works.
+- [ ] **Domain email** — deferred. Zoho withdrew its free plan; Mail Lite is
+      ~Rs835/yr for one mailbox with `cpmeena@` as an alias. Options and prices
+      are noted in `src/site.config.ts`. The site shows the Gmail, which works.
 - [ ] **Google Search Console** — verify the domain and submit
       `https://royalfoundry.in/sitemap-index.xml` to speed up indexing.
-- [ ] Photos of a finished DTR box — the eight on the site are video stills
-      (848x478) and look soft when enlarged in the lightbox.
-- [ ] The exact name of the District Industries Centre award; its caption on the
-      About page is deliberately vague because the banner is partly obscured.
-- [ ] Check the 49 gallery product labels in `files/*/GROUPS.md`.
+- [ ] Photos of a finished DTR box — the eight in use are video stills
+      (848×478) and look soft when enlarged in the lightbox.
+- [ ] The exact name of the District Industries Centre award. Its caption is
+      deliberately vague because the banner in the photo is partly obscured.
+- [ ] Check the product labels in `files/*/GROUPS.md` — they drive the gallery
+      captions and image alt text.
 
-Confirmed and done: PIN `686531`, the full street address, established 1991,
-24-hour working, both mobiles plus the landline, the Google Maps location,
-and that the hardware goes to KSEB electrical, transmission and generation
-circles and tower lines.
+Confirmed and settled: PIN `686531`, the full street address, established 1991,
+24-hour working all week, both mobiles plus the landline, the Google Maps
+location, and that the hardware goes to KSEB electrical, transmission and
+generation circles and tower lines while the mat moulds go to manufacturers
+across India.
 
-## Deploying to Cloudflare Pages
-
-1. Push this folder to a new GitHub repo.
-2. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git.
-3. Pick the repo. Build settings:
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Output directory: `dist`
-4. Deploy. You get a `*.pages.dev` URL in about two minutes — that works as a
-   preview before the domain is ready.
-5. Custom domains → add your domain. If the domain is registered at Cloudflare,
-   DNS is set up for you; otherwise point the nameservers at Cloudflare first.
-
-Every `git push` to the main branch redeploys. HTTPS is automatic.
+---
 
 ## Notes
 
-- No backend, no database, no forms — enquiries go through phone and WhatsApp.
-  Nothing to maintain or patch, and hosting is free at this size.
-- Whole site is ~250 KB, so it loads fast on a patchy mobile connection.
-- `public/_headers` sets caching and basic security headers on Cloudflare Pages.
-- `/files` holds the source documents. They are **not** published — the folder
-  sits outside `public/`, so nothing in it reaches the built site. Keep it that
-  way: it contains bank details, the proprietor's signature image, Aadhaar and
-  PAN numbers, and customer information. The build output is checked for these;
-  none of them appear on the site.
-- The 351 MB promo video is not embedded. If you want it on the site, upload it
-  to YouTube and embed the player — serving a file that size directly would be
-  slow and expensive.
+- **No backend, no database, no forms.** Enquiries go through phone and
+  WhatsApp. Nothing to patch, nothing to breach, nothing to pay for.
+- **`/files` is gitignored and never published.** It holds the source documents
+  and 342 MB of video, and contains the proprietor's signature image, bank
+  account details, customer names and GSTINs. Everything the site needs was
+  extracted into `src/assets/`. Keep it that way — and note GitHub would reject
+  `RoyalFoundry_Video.mp4` anyway, at 336 MB against a 100 MB file limit.
+- **The promo videos are not embedded.** If you want the main one on the site,
+  put it on YouTube and embed the player; serving 336 MB directly would be slow
+  and expensive.
+- **Mat moulds, not mats.** The site says plainly, in both languages, that Royal
+  Foundry makes the mould and not the mat. The customer catalogue images in
+  `files/mat-moulds/` (`mat2.jpg`, `mat3.jpg`, `mats.jpg`) are another company's
+  branded material and are deliberately not published.
+- **Motion respects `prefers-reduced-motion`.** Product cards show a single
+  still image for anyone whose device asks for reduced motion.
