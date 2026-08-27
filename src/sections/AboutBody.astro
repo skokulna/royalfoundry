@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import showcase from '../assets/products/showcase.jpg';
+import proprietor from '../assets/awards/proprietor.jpg';
+import { t, type Lang } from '../i18n/ui';
+import Awards from '../components/Awards.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+---
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">{c.nav.about}</p>
+    <h1>{c.about.heading}</h1>
+    <p class="lead">{c.about.lead}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap about">
+    <div class="about__body">
+      <p>{c.about.body[0]}</p>
+      <figure class="about__fig">
+        <Image src={proprietor} alt={c.awards.proprietor} widths={[600, 1200]}
+               sizes="(min-width: 900px) 620px, 92vw" loading="lazy" />
+        <figcaption>{c.awards.proprietor}</figcaption>
+      </figure>
+      <p>{c.about.body[1]}</p>
+      <figure class="about__fig">
+        <Image src={showcase} alt={c.products.items[0].name} widths={[600, 1100]}
+               sizes="(min-width: 900px) 620px, 92vw" loading="lazy" />
+      </figure>
+      {c.about.body.slice(2).map((para) => <p>{para}</p>)}
+    </div>
+    <aside class="about__side">
+      <h2>{c.about.statsHeading}</h2>
+      <dl>
+        {c.about.stats.map((s) => (
+          <div>
+            <dt>{s.value}</dt>
+            <dd>{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<Awards lang={lang} />
+
+<CtaBand lang={lang} />
+
+<style>
+  .pagehead {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  }
+  .lead { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; margin: 0; }
+
+  .about { display: grid; gap: 2.5rem; }
+  @media (min-width: 900px) { .about { grid-template-columns: 1.7fr 1fr; gap: 4rem; } }
+  .about__body p { font-size: 1.04rem; color: var(--ink-2); }
+  .about__body p:first-child { font-size: 1.14rem; color: var(--ink); }
+  .about__fig { margin: 2rem 0; }
+  .about__fig figcaption {
+    margin-top: .6rem; font-size: .87rem; color: var(--muted); line-height: 1.5;
+  }
+  .about__fig img {
+    width: 100%; border-radius: var(--r); background: var(--paper-3);
+  }
+
+  .about__side { align-self: start; }
+  .about__side h2 {
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.2rem;
+  }
+  html[lang^="ml"] .about__side h2 { letter-spacing: .03em; text-transform: none; font-size: 1rem; }
+  .about__side dl { margin: 0; display: grid; gap: 0; }
+  .about__side div { padding: 1.1rem 0; border-top: 1px solid var(--line); }
+  .about__side div:last-child { border-bottom: 1px solid var(--line); }
+  .about__side dt {
+    font-family: var(--font-display); font-size: 1.22rem; font-weight: 700;
+    color: var(--brand); margin-bottom: .15rem;
+  }
+  .about__side dd { margin: 0; font-size: .92rem; color: var(--muted); }
+</style>

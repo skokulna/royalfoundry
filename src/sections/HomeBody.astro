@@ -1,0 +1,190 @@
+---
+import { getImage } from 'astro:assets';
+import { site, telHref, prettyPhone, waHref } from '../site.config';
+import heroSrc from '../assets/products/hero.jpg';
+import { t, localePath, type Lang } from '../i18n/ui';
+import ProductGrid from '../components/ProductGrid.astro';
+import PhotoStrip from '../components/PhotoStrip.astro';
+import People from '../components/People.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+
+const heroImg = await getImage({ src: heroSrc, width: 1920, format: 'webp', quality: 68 });
+---
+<section class="hero" style={`--hero-img:url(${heroImg.src})`}>
+  <div class="wrap hero__in">
+    <p class="hero__eyebrow">{c.hero.eyebrow}</p>
+    <h1>{c.hero.title}</h1>
+    <p class="hero__sub">{c.hero.sub}</p>
+
+    <div class="hero__btns">
+      <a class="btn btn--wa" href={waHref(c.contact.waMessage)} target="_blank" rel="noopener">
+        {c.cta.whatsapp}
+      </a>
+      <a class="btn btn--onblue" href={telHref(site.phonePrimary)}>
+        {prettyPhone(site.phonePrimary)}
+      </a>
+    </div>
+
+    <ul class="hero__badges">
+      <li>{c.hero.badge1}</li>
+      <li>{c.hero.badge2}</li>
+      <li>{c.hero.badge3}</li>
+    </ul>
+  </div>
+</section>
+
+<section class="creds">
+  <div class="wrap">
+    <h2 class="vh">{c.creds.heading}</h2>
+    <ul>
+      {c.creds.items.map((x) => (
+        <li>
+          <strong>{x.value}</strong>
+          <span>{x.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="eyebrow">{c.intro.heading}</p>
+      <h2>{c.products.heading}</h2>
+      <p>{c.intro.body}</p>
+    </div>
+    <ProductGrid lang={lang} frames={4} />
+    <p class="more">
+      <a class="btn btn--ghost" href={localePath(lang, '/products')}>{c.cta.viewProducts}</a>
+    </p>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>{c.why.heading}</h2>
+    </div>
+    <div class="grid grid--3">
+      {c.why.items.map((w, i) => (
+        <article class="why">
+          <span class="why__n">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{w.title}</h3>
+          <p>{w.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<PhotoStrip lang={lang} />
+
+
+<People lang={lang} />
+
+<CtaBand lang={lang} />
+
+<style>
+  .hero {
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(900px 420px at 80% -10%, rgba(37,99,235,.5), transparent 65%),
+      linear-gradient(160deg, var(--brand) 0%, var(--brand-900) 70%);
+    color: #fff;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--hero-img) center right / cover no-repeat;
+    opacity: .34;
+    mix-blend-mode: luminosity;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(100deg,
+      var(--brand-900) 0%,
+      rgba(19,31,66,.86) 42%,
+      rgba(19,31,66,.35) 100%);
+    pointer-events: none;
+  }
+  @media (max-width: 700px) {
+    .hero::after {
+      background: linear-gradient(180deg, rgba(19,31,66,.82) 0%, rgba(19,31,66,.94) 100%);
+    }
+  }
+  /* no max-width here: .wrap already sets the page container, and a narrower
+     max-width combined with .wrap's margin-inline:auto would centre the hero
+     text instead of aligning it with the logo and every section below. */
+  .hero__in {
+    position: relative; z-index: 1;
+    padding-block: clamp(1.6rem, 1rem + 2.8vw, 2.9rem);
+  }
+  .hero__eyebrow {
+    font-family: var(--font-display);
+    font-size: .8rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: #9db6f0; margin: 0 0 .6rem;
+  }
+  html[lang^="ml"] .hero__eyebrow { letter-spacing: .05em; text-transform: none; font-size: .95rem; }
+  .hero h1 {
+    color: #fff; max-width: 34ch;
+    font-size: clamp(1.85rem, 1.15rem + 2.5vw, 2.85rem);
+  }
+  .hero__sub {
+    font-size: clamp(.98rem, .92rem + .3vw, 1.08rem);
+    color: #cbd8f2; max-width: 72ch; margin-bottom: 1.15rem;
+  }
+  .hero__btns { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1.25rem; }
+
+  .hero__badges {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
+    list-style: none; margin: 0; padding: .9rem 0 0;
+    border-top: 1px solid rgba(255,255,255,.16);
+  }
+  .hero__badges li {
+    position: relative; padding-left: 1.4rem;
+    font-size: .92rem; font-weight: 500; color: #cbd8f2;
+  }
+  .hero__badges li::before {
+    content: ''; position: absolute; left: 0; top: .5em;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ember); box-shadow: 0 0 0 3px rgba(194,98,15,.25);
+  }
+
+  .creds {
+    background: var(--paper);
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .creds ul {
+    display: grid; gap: 1.5rem;
+    list-style: none; margin: 0; padding: 0;
+    padding-block: 2rem;
+  }
+  @media (min-width: 800px) { .creds ul { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+  .creds li { display: flex; flex-direction: column; gap: .3rem; }
+  .creds li + li { border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  @media (min-width: 800px) {
+    .creds li + li { border-top: 0; border-left: 1px solid var(--line); padding-top: 0; padding-left: 2.5rem; }
+  }
+  .creds strong {
+    font-family: var(--font-display); font-size: 1.05rem; font-weight: 700;
+    color: var(--brand-900); line-height: 1.3;
+  }
+  .creds span { font-size: .86rem; color: var(--muted); line-height: 1.5; }
+  .creds ul { padding-block: 1.25rem; }
+
+  .more { margin: 2rem 0 0; }
+
+  .why__n {
+    display: block;
+    font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+    color: var(--paper-3); line-height: 1; margin-bottom: .6rem;
+  }
+  .why h3 { margin-bottom: .35rem; }
+  .why p { color: var(--ink-2); font-size: .97rem; margin: 0; }
+</style>

@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductsBody from '../../sections/ProductsBody.astro';
+import { t } from '../../i18n/ui';
+
+const lang = 'ml' as const;
+const m = t(lang).meta.products;
+---
+<Base lang={lang} title={m.title} description={m.desc} path="/products">
+  <ProductsBody lang={lang} />
+</Base>

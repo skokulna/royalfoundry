@@ -1,0 +1,151 @@
+---
+import { site, telHref, prettyPhone } from '../site.config';
+import { t, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; path: string; }
+const { lang, path } = Astro.props;
+const c = t(lang);
+
+const nav = [
+  { key: 'home',     href: '/',         label: c.nav.home },
+  { key: 'products', href: '/products', label: c.nav.products },
+  { key: 'about',    href: '/about',    label: c.nav.about },
+  { key: 'contact',  href: '/contact',  label: c.nav.contact },
+];
+const other: Lang = lang === 'en' ? 'ml' : 'en';
+---
+<a class="skip" href="#main">{c.skipLink}</a>
+
+<header class="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href={localePath(lang, '/')}>
+      <img src="/logo.png" alt={site.name} width="501" height="372" />
+      <span class="brand__txt">
+        <strong>Royal Foundry</strong>
+        <small>Chingavanam, Kottayam</small>
+      </span>
+    </a>
+
+    <button class="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="nav" class="nav">
+      <ul>
+        {nav.map((n) => (
+          <li>
+            <a
+              href={localePath(lang, n.href)}
+              aria-current={path === n.href ? 'page' : undefined}
+            >{n.label}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="hdr__actions">
+        <a class="lang" href={localePath(other, path)} hreflang={other} lang={other === 'ml' ? 'ml' : 'en'}>
+          <span class="vh">{c.langLabel}: </span>{other === 'ml' ? 'മലയാളം' : 'English'}
+        </a>
+        <a class="btn btn--primary btn--sm" href={telHref(site.phonePrimary)}>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>
+          <span>{prettyPhone(site.phonePrimary)}</span>
+        </a>
+        {site.phoneSecondary && (
+          <a class="btn btn--ghost btn--sm hdr__alt" href={telHref(site.phoneSecondary)}>
+            <span>{prettyPhone(site.phoneSecondary)}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: saturate(160%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hdr__in { display: flex; align-items: center; gap: 1rem; min-height: 72px; }
+
+  .brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: inherit; margin-right: auto; }
+  .brand img { width: auto; height: 42px; }
+  .brand__txt { display: flex; flex-direction: column; line-height: 1.15; }
+  .brand__txt strong {
+    font-family: var(--font-display); font-size: 1.08rem;
+    font-weight: 800; letter-spacing: -.01em; color: var(--brand-900);
+  }
+  .brand__txt small { font-size: .74rem; color: var(--muted); letter-spacing: .01em; }
+
+  .nav { display: flex; align-items: center; gap: 1.75rem; }
+  .nav ul { display: flex; gap: 1.4rem; list-style: none; margin: 0; padding: 0; }
+  .nav ul a {
+    font-size: .95rem; font-weight: 500; color: var(--ink-2);
+    text-decoration: none; padding-block: .3rem;
+    border-bottom: 2px solid transparent;
+  }
+  .nav ul a:hover { color: var(--brand-700); }
+  .nav ul a[aria-current='page'] { color: var(--brand); font-weight: 600; border-bottom-color: var(--brand); }
+
+  .hdr__actions { display: flex; align-items: center; gap: .8rem; }
+  .lang {
+    font-size: .86rem; font-weight: 600; color: var(--ink-2);
+    text-decoration: none; padding: .35rem .7rem;
+    border: 1px solid var(--line); border-radius: 999px; white-space: nowrap;
+  }
+  .lang:hover { border-color: var(--brand); color: var(--brand-700); background: var(--brand-50); }
+  .btn--sm { padding: .5rem 1rem; font-size: .88rem; }
+
+  /* the second number only appears where there is genuinely room for it,
+     and again inside the mobile menu below */
+  .hdr__alt { display: none; white-space: nowrap; }
+  @media (min-width: 1080px) { .hdr__alt { display: inline-flex; } }
+
+  .burger { display: none; }
+
+  @media (max-width: 900px) {
+    .btn--sm span:last-child { display: none; }
+    .btn--sm { padding: .55rem .7rem; }
+    .nav ul { gap: 1rem; }
+  }
+  @media (max-width: 780px) {
+    .burger {
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      width: 42px; height: 42px; padding: 0 9px;
+      background: transparent; border: 1px solid var(--line); border-radius: 10px; cursor: pointer;
+      order: 3;
+    }
+    .burger span { display: block; height: 2px; background: var(--ink); border-radius: 2px; transition: .2s; }
+    .burger[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+    .burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav {
+      position: absolute; inset: 100% 0 auto; z-index: 40;
+      display: none; flex-direction: column; align-items: stretch; gap: 0;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-lg); padding: .5rem 20px 1.1rem;
+    }
+    .nav[data-open] { display: flex; }
+    .nav ul { flex-direction: column; gap: 0; }
+    .nav li { border-bottom: 1px solid var(--paper-3); }
+    .nav ul a { display: block; padding: .85rem .2rem; font-size: 1.02rem; border-bottom: none; }
+    .hdr__actions { padding-top: 1rem; }
+    .hdr__actions { flex-wrap: wrap; gap: .6rem; }
+    .lang { flex: 1 1 100%; text-align: center; padding-block: .6rem; }
+    .btn--sm { flex: 1; padding: .6rem 1rem; }
+    .btn--sm span:last-child { display: inline; }
+    .hdr__alt { display: inline-flex; }
+  }
+</style>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const nav = document.getElementById('nav');
+  burger?.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    if (open) nav?.removeAttribute('data-open');
+    else nav?.setAttribute('data-open', '');
+  });
+</script>

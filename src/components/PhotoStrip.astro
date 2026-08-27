@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import { t, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+
+const electrical = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/electrical/*.jpg', { eager: true });
+const moulds = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/moulds/*.jpg', { eager: true });
+
+// a spread across both lines, picked for how they read at thumbnail size
+const PICKS = [
+  ['electrical', '01-clamps-range-of-five-sizes'],
+  ['electrical', '18-ab-switch-11kv-400a'],
+  ['electrical', '03-large-parallel-groove-clamp'],
+  ['moulds',     '11-floral-lace-mould'],
+  ['electrical', '09-transformer-bushing-clamp-for-double-conductor'],
+  ['moulds',     '09-leaf-spray-mould'],
+  ['electrical', '16-cable-lugs-and-terminal-ends'],
+  ['moulds',     '15-chevron-mould-with-welcome-lettering'],
+  ['electrical', '21-ab-switch-contact-assemblies'],
+  ['moulds',     '01-fan-pattern-semicircle-mould-70x40-cm'],
+] as const;
+
+const captions = c.gallery.captions as Record<string, string>;
+const shots = PICKS.map(([group, key]) => {
+  const files = group === 'moulds' ? moulds : electrical;
+  const mod = files[`../assets/gallery/${group}/${key}.jpg`];
+  return mod ? { key, img: mod.default, caption: captions[key] ?? key } : null;
+}).filter(Boolean) as { key: string; img: ImageMetadata; caption: string }[];
+
+const total = Object.keys(electrical).length + Object.keys(moulds).length;
+---
+{shots.length > 0 && (
+  <section class="strip">
+    <div class="wrap strip__head">
+      <h2>{c.gallery.heading}</h2>
+      <a href={localePath(lang, '/products')}>{c.strip.seeAll(total)}</a>
+    </div>
+
+    <ul class="strip__rail">
+      {shots.map(({ key, img, caption }) => (
+        <li>
+          <a href={`${localePath(lang, '/products')}#${key}`}>
+            <Image src={img} alt={caption} widths={[300, 600]}
+                   sizes="260px" loading="lazy" />
+            <span>{caption}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .strip { padding-block: clamp(3rem, 2rem + 4vw, 4.5rem); background: var(--paper); }
+  .strip__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .strip__head h2 { margin: 0; }
+  .strip__head a {
+    font-family: var(--font-display); font-weight: 600; font-size: .95rem;
+    color: var(--brand-700); text-decoration: none; white-space: nowrap;
+  }
+  .strip__head a:hover { text-decoration: underline; }
+
+  .strip__rail {
+    display: flex; gap: 1rem;
+    list-style: none; margin: 0; padding: .25rem 20px 1rem;
+    overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  /* keep the first card flush with the page gutter on wide screens */
+  @media (min-width: 1200px) {
+    .strip__rail { padding-inline: max(20px, calc((100vw - var(--w)) / 2 + 20px)); }
+  }
+  .strip__rail li { flex: 0 0 260px; scroll-snap-align: start; }
+  .strip__rail a {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .strip__rail a:hover { border-color: #c4d1e8; box-shadow: var(--shadow); transform: translateY(-2px); }
+  .strip__rail img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #11151f; }
+  .strip__rail span {
+    display: block; padding: .6rem .8rem .75rem;
+    font-size: .82rem; line-height: 1.4; color: var(--ink-2);
+  }
+</style>

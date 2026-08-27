@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import founder from '../assets/people/founder.jpg';
+import proprietor from '../assets/people/proprietor.jpg';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+
+const people = [
+  { img: founder,    ...c.people.founder },
+  { img: proprietor, ...c.people.proprietor },
+];
+---
+<section class="section section--tint people">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="eyebrow">1991 — {new Date().getFullYear()}</p>
+      <h2>{c.people.heading}</h2>
+      <p>{c.people.sub}</p>
+    </div>
+
+    <ul class="people__grid">
+      {people.map((p) => (
+        <li class="people__card">
+          <Image src={p.img} alt={p.name} widths={[360, 720]}
+                 sizes="(min-width: 760px) 260px, 45vw" loading="lazy" />
+          <div>
+            <h3>{p.name}</h3>
+            <p class="people__role">{p.role}</p>
+            <p class="people__note">{p.note}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .people__grid {
+    display: grid; gap: 1.75rem;
+    list-style: none; margin: 0; padding: 0;
+  }
+  @media (min-width: 760px) { .people__grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
+
+  .people__card { display: grid; gap: 1.25rem; align-items: start; }
+  @media (min-width: 520px) { .people__card { grid-template-columns: 190px 1fr; gap: 1.5rem; } }
+
+  .people__card img {
+    width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+    border-radius: var(--r);
+    border: 1px solid var(--line);
+    background: var(--paper-3);
+  }
+  @media (max-width: 519px) { .people__card img { max-width: 210px; } }
+
+  .people__card h3 { margin-bottom: .1rem; font-size: 1.12rem; }
+  .people__role {
+    margin: 0 0 .7rem;
+    font-family: var(--font-display);
+    font-size: .78rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--brand-600);
+  }
+  html[lang^="ml"] .people__role { letter-spacing: .03em; text-transform: none; font-size: .95rem; }
+  .people__note { margin: 0; font-size: .95rem; color: var(--ink-2); }
+</style>

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+.env
+.env.production
+
+# Source material — deliberately NOT published or committed.
+# Contains the proprietor's signature image, bank account details, customer
+# names and GSTINs, the GST and Udyam certificates, and a 336 MB video that
+# GitHub would reject outright (100 MB per-file limit).
+# Everything the site needs has already been extracted into src/assets/.
+files/
+
+# local scratch: screenshots etc.
+tmp/

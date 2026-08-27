@@ -1,0 +1,235 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+
+const electricalFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/electrical/*.{jpg,jpeg,png,webp}', { eager: true });
+const dtrFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/dtr/*.{jpg,jpeg,png,webp}', { eager: true });
+const mouldFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/moulds/*.{jpg,jpeg,png,webp}', { eager: true });
+
+type Shot = { key: string; img: ImageMetadata; caption: string; full: string; i: number };
+const captions = c.gallery.captions as Record<string, string>;
+
+const toShots = (files: Record<string, { default: ImageMetadata }>) =>
+  Object.entries(files)
+    .map(([path, mod]) => ({
+      key: path.split('/').pop()!.replace(/\.[^.]+$/, ''),
+      img: mod.default,
+    }))
+    .sort((a, b) => a.key.localeCompare(b.key));
+
+const raw = [
+  { id: 'electrical', title: c.gallery.groups.electrical, note: null,                 shots: toShots(electricalFiles) },
+  { id: 'dtr',        title: c.gallery.groups.dtr,        note: null,                 shots: toShots(dtrFiles) },
+  { id: 'moulds',     title: c.gallery.groups.moulds,     note: c.gallery.mouldsNote, shots: toShots(mouldFiles) },
+].filter((g) => g.shots.length > 0);
+
+// one big variant per photo for the lightbox, and a flat index so the
+// arrows can walk the whole gallery rather than stopping at group edges
+let n = 0;
+const groups = await Promise.all(
+  raw.map(async (g) => ({
+    ...g,
+    shots: await Promise.all(
+      g.shots.map(async (s): Promise<Shot> => ({
+        ...s,
+        caption: captions[s.key] ?? s.key,
+        full: (await getImage({ src: s.img, width: 1600, format: 'webp', quality: 76 })).src,
+        i: n++,
+      }))
+    ),
+  }))
+);
+const total = n;
+---
+<section class="section section--tint">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>{c.gallery.heading}</h2>
+      <p>{c.gallery.sub}</p>
+    </div>
+
+    {groups.map((g) => (
+      <div class="galgroup">
+        <h3 class="galgroup__t">{g.title}</h3>
+        {g.note && <p class="galgroup__note">{g.note}</p>}
+        <ul class="gal">
+          {g.shots.map(({ key, img, caption, full, i }) => (
+            <li class="gal__item" id={key}>
+              <button type="button" class="gal__btn"
+                      data-full={full} data-caption={caption} data-i={i}
+                      aria-label={`${caption} — ${c.lightbox.open}`}>
+                <Image src={img} alt={caption} widths={[400, 800]}
+                       sizes="(min-width: 1100px) 270px, (min-width: 760px) 30vw, 45vw"
+                       loading="lazy" />
+                <span>{caption}</span>
+                <span class="gal__zoom" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<dialog class="lb" data-total={total} aria-label={c.gallery.heading}>
+  <button type="button" class="lb__close" data-lb="close" aria-label={c.lightbox.close}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <button type="button" class="lb__nav lb__prev" data-lb="prev" aria-label={c.lightbox.prev}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+  </button>
+  <figure class="lb__fig">
+    <img class="lb__img" alt="" />
+    <figcaption><span class="lb__cap"></span><span class="lb__count"></span></figcaption>
+  </figure>
+  <button type="button" class="lb__nav lb__next" data-lb="next" aria-label={c.lightbox.next}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+  </button>
+</dialog>
+
+<style>
+  .galgroup + .galgroup { margin-top: 3.5rem; }
+  .galgroup__t {
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--brand-600); margin-bottom: .9rem;
+    padding-bottom: .7rem; border-bottom: 1px solid var(--line);
+  }
+  html[lang^="ml"] .galgroup__t { letter-spacing: .03em; text-transform: none; font-size: 1rem; }
+  .galgroup__note {
+    max-width: 64ch; margin: 0 0 1.5rem;
+    font-size: .95rem; color: var(--ink-2);
+    padding-left: .9rem; border-left: 3px solid var(--brand-600);
+  }
+
+  .gal {
+    display: grid; gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none; margin: 0; padding: 0;
+  }
+  @media (min-width: 760px)  { .gal { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1100px) { .gal { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; } }
+
+  .gal__item { scroll-margin-top: 90px; }
+  .gal__btn {
+    position: relative; display: flex; flex-direction: column;
+    width: 100%; padding: 0; text-align: left; cursor: zoom-in;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden; font: inherit; color: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .gal__btn:hover { border-color: #c4d1e8; box-shadow: var(--shadow); transform: translateY(-2px); }
+  .gal__btn :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #11151f; }
+  .gal__btn > span:first-of-type {
+    padding: .7rem .85rem .8rem;
+    font-size: .84rem; line-height: 1.4; color: var(--ink-2);
+  }
+  html[lang^="ml"] .gal__btn > span:first-of-type { font-size: .82rem; }
+
+  .gal__zoom {
+    position: absolute; top: .55rem; right: .55rem;
+    display: grid; place-items: center; width: 30px; height: 30px;
+    border-radius: 50%; background: rgba(15,23,41,.62); color: #fff;
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .gal__zoom svg { width: 16px; height: 16px; }
+  .gal__btn:hover .gal__zoom, .gal__btn:focus-visible .gal__zoom { opacity: 1; }
+
+  /* ---------- lightbox ---------- */
+  .lb {
+    width: min(96vw, 1500px); max-width: none;
+    max-height: 94vh; padding: 0; border: 0; background: transparent;
+    overflow: visible; color: #fff;
+  }
+  .lb::backdrop { background: rgba(8, 12, 24, .92); }
+  .lb[open] { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .5rem; }
+
+  .lb__fig { margin: 0; min-width: 0; text-align: center; }
+  .lb__img {
+    display: block; margin: 0 auto;
+    max-width: 100%; max-height: 82vh;
+    width: auto; height: auto;
+    border-radius: 8px; background: #11151f;
+  }
+  .lb__fig figcaption {
+    display: flex; justify-content: center; align-items: baseline; gap: .8rem;
+    flex-wrap: wrap; padding-top: .85rem;
+    font-size: .95rem; color: #d6dfef;
+  }
+  .lb__count { font-size: .82rem; color: #8fa0c0; font-variant-numeric: tabular-nums; }
+
+  .lb__nav, .lb__close {
+    display: grid; place-items: center; flex: none;
+    background: rgba(255,255,255,.1); color: #fff;
+    border: 1px solid rgba(255,255,255,.25); border-radius: 50%;
+    cursor: pointer; transition: background .15s ease;
+  }
+  .lb__nav:hover, .lb__close:hover { background: rgba(255,255,255,.24); }
+  .lb__nav { width: 48px; height: 48px; }
+  .lb__nav svg { width: 24px; height: 24px; }
+  .lb__close { position: absolute; top: -6px; right: -6px; width: 40px; height: 40px; z-index: 2; }
+  .lb__close svg { width: 20px; height: 20px; }
+
+  @media (max-width: 700px) {
+    .lb[open] { grid-template-columns: 1fr; }
+    .lb__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; }
+    .lb__prev { left: 2px; }
+    .lb__next { right: 2px; }
+    .lb__close { top: -4px; right: -2px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gal__btn { transition: none; }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.lb');
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.gal__btn')];
+  if (dialog && buttons.length) {
+    const img = dialog.querySelector<HTMLImageElement>('.lb__img')!;
+    const cap = dialog.querySelector<HTMLElement>('.lb__cap')!;
+    const count = dialog.querySelector<HTMLElement>('.lb__count')!;
+    const total = buttons.length;
+    let idx = 0;
+
+    const show = (i: number) => {
+      idx = (i + total) % total;
+      const b = buttons[idx];
+      img.src = b.dataset.full ?? '';
+      img.alt = b.dataset.caption ?? '';
+      cap.textContent = b.dataset.caption ?? '';
+      count.textContent = `${idx + 1} / ${total}`;
+    };
+
+    buttons.forEach((b, i) =>
+      b.addEventListener('click', () => { show(i); dialog.showModal(); })
+    );
+
+    dialog.addEventListener('click', (e) => {
+      const el = e.target as HTMLElement;
+      const act = el.closest('[data-lb]')?.getAttribute('data-lb');
+      if (act === 'close') dialog.close();
+      else if (act === 'prev') show(idx - 1);
+      else if (act === 'next') show(idx + 1);
+      else if (el === dialog) dialog.close();   // click on the backdrop area
+    });
+
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); show(idx - 1); }
+    });
+
+    // return focus to the thumbnail that opened it
+    dialog.addEventListener('close', () => buttons[idx]?.focus());
+  }
+</script>

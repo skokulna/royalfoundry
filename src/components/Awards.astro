@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import plaque from '../assets/awards/plaque.jpg';
+import certificate from '../assets/awards/certificate.jpg';
+import ceremony from '../assets/awards/ceremony.jpg';
+import trophy from '../assets/awards/trophy.jpg';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+---
+<section class="section section--tint awards">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="eyebrow">2013–14</p>
+      <h2>{c.awards.heading}</h2>
+      <p>{c.awards.sub}</p>
+    </div>
+
+    <figure class="awards__lead">
+      <Image src={plaque} alt={c.awards.plaque} widths={[900, 1800]}
+             sizes="(min-width: 1160px) 1120px, 92vw" loading="lazy" />
+      <figcaption>{c.awards.plaque}</figcaption>
+    </figure>
+
+    <div class="awards__pair">
+      <figure>
+        <Image src={certificate} alt={c.awards.certificate} widths={[600, 1200]}
+               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+        <figcaption>{c.awards.certificate}</figcaption>
+      </figure>
+      <figure>
+        <Image src={ceremony} alt={c.awards.ceremony} widths={[600, 1100]}
+               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+        <figcaption>{c.awards.ceremony}</figcaption>
+      </figure>
+      <figure>
+        <Image src={trophy} alt={c.awards.trophy} widths={[600, 1100]}
+               sizes="(min-width: 820px) 370px, 92vw" loading="lazy" />
+        <figcaption>{c.awards.trophy}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .awards figure {
+    margin: 0;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .awards img { width: 100%; display: block; background: #11151f; }
+  .awards figcaption {
+    padding: .85rem 1.1rem 1rem;
+    font-size: .87rem; line-height: 1.5; color: var(--ink-2);
+  }
+  html[lang^="ml"] .awards figcaption { font-size: .85rem; }
+
+  .awards__lead { margin-bottom: 1.25rem !important; }
+  .awards__lead img { aspect-ratio: 2.44 / 1; object-fit: cover; }
+  .awards__lead figcaption { font-size: .92rem; color: var(--ink); }
+
+  .awards__pair { display: grid; gap: 1.25rem; }
+  @media (min-width: 620px) { .awards__pair { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .awards__pair { grid-template-columns: repeat(3, 1fr); } }
+  .awards__pair img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center; }
+</style>

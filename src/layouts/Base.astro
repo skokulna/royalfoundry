@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFab from '../components/WhatsAppFab.astro';
+import { site } from '../site.config';
+import { languages, localePath, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** canonical path without locale prefix, e.g. "/" or "/products" */
+  path: string;
+}
+const { lang, title, description, path } = Astro.props;
+const meta = languages[lang];
+const canonical = new URL(localePath(lang, path), Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  additionalType: 'https://schema.org/Manufacturer',
+  name: site.name,
+  description,
+  url: Astro.site?.href,
+  logo: new URL('/logo.png', Astro.site).href,
+  image: new URL('/logo.png', Astro.site).href,
+  telephone: [site.phonePrimary, site.phoneSecondary, site.landline].filter(Boolean),
+  foundingDate: '1991-12-01',
+  award: 'MSME District Level Award 2013-14 — Best Entrepreneur, Kottayam District (Women Category), Department of Industries & Commerce, Government of Kerala',
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address.line1}, ${site.address.line2}`,
+    addressLocality: `${site.address.locality}, ${site.address.city}`,
+    addressRegion: site.address.state,
+    postalCode: site.address.pin,
+    addressCountry: 'IN',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  hasMap: site.mapShareUrl,
+  areaServed: { '@type': 'State', name: 'Kerala' },
+  knowsLanguage: ['en-IN', 'ml-IN'],
+  openingHours: 'Mo-Su 00:00-23:59',
+};
+---
+<html lang={meta.htmlLang} dir={meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="en-IN" href={new URL(localePath('en', path), Astro.site).href} />
+    <link rel="alternate" hreflang="ml-IN" href={new URL(localePath('ml', path), Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath('en', path), Astro.site).href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'ml' ? 'ml_IN' : 'en_IN'} />
+    <meta property="og:image" content={new URL('/icon-512.png', Astro.site).href} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#1e3a8a" />
+
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Malayalam:wght@400;500;700&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <Header lang={lang} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <WhatsAppFab lang={lang} />
+  </body>
+</html>

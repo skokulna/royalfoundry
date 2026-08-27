@@ -1,0 +1,39 @@
+---
+import { site, telHref, prettyPhone, waHref } from '../site.config';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+---
+<section class="cta">
+  <div class="wrap cta__in">
+    <div>
+      <h2>{c.ctaBand.heading}</h2>
+      <p>{c.ctaBand.body}</p>
+    </div>
+    <div class="cta__btns">
+      <a class="btn btn--wa" href={waHref(c.contact.waMessage)} target="_blank" rel="noopener">
+        {c.cta.whatsapp}
+      </a>
+      <a class="btn btn--onblue" href={telHref(site.phonePrimary)}>
+        {prettyPhone(site.phonePrimary)}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-900) 100%);
+    color: #fff;
+  }
+  .cta__in {
+    display: grid; gap: 1.8rem; align-items: center;
+    padding-block: clamp(2.5rem, 1.5rem + 3.5vw, 4rem);
+  }
+  @media (min-width: 820px) { .cta__in { grid-template-columns: 1.5fr auto; gap: 3rem; } }
+  .cta h2 { color: #fff; margin-bottom: .4rem; }
+  .cta p { color: #c9d4ec; margin: 0; max-width: 48ch; }
+  .cta__btns { display: flex; flex-wrap: wrap; gap: .75rem; }
+</style>

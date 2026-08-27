@@ -1,0 +1,82 @@
+---
+import { site, telHref, prettyPhone, fullAddress, mapsSearchUrl } from '../site.config';
+import { t, localePath, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+const year = new Date().getFullYear();
+
+const nav = [
+  { href: '/',         label: c.nav.home },
+  { href: '/products', label: c.nav.products },
+  { href: '/about',    label: c.nav.about },
+  { href: '/contact',  label: c.nav.contact },
+];
+---
+<footer class="ftr">
+  <div class="wrap ftr__in">
+    <div class="ftr__brand">
+      <img src="/logo-light.png" alt={site.name} width="501" height="372" />
+      <p>{c.footer.tagline}</p>
+      <p class="gst">GSTIN: {site.gstin}<br />Udyam: {site.udyam}</p>
+    </div>
+
+    <nav class="ftr__col" aria-label={c.footer.quickLinks}>
+      <h3>{c.footer.quickLinks}</h3>
+      <ul>
+        {nav.map((n) => <li><a href={localePath(lang, n.href)}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="ftr__col">
+      <h3>{c.footer.contactHeading}</h3>
+      <ul>
+        <li><a href={telHref(site.phonePrimary)}>{prettyPhone(site.phonePrimary)}</a></li>
+        {site.phoneSecondary && (
+          <li><a href={telHref(site.phoneSecondary)}>{prettyPhone(site.phoneSecondary)}</a></li>
+        )}
+        <li><a href={telHref(site.landline)}>{prettyPhone(site.landline)}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>
+          <a href={mapsSearchUrl} target="_blank" rel="noopener">{fullAddress}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap ftr__base">
+    <p>© {year} {site.legalName}. {c.footer.rights}</p>
+    <p>{site.hours.weekdays} · {site.hours.sunday}</p>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--brand-900); color: #c9d4ec; margin-top: auto; }
+  .ftr__in {
+    display: grid; gap: 2.5rem;
+    padding-block: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+  @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.6fr 1fr 1.3fr; gap: 2rem; } }
+
+  .ftr__brand img { height: 52px; width: auto; margin-bottom: 1.1rem; }
+  .ftr__brand p { font-size: .92rem; margin: 0 0 .4rem; max-width: 34ch; }
+  .gst { font-size: .82rem !important; color: #8c9cc0; letter-spacing: .02em; }
+
+  .ftr h3 {
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    color: #fff; margin-bottom: 1rem;
+  }
+  html[lang^="ml"] .ftr h3 { letter-spacing: .03em; text-transform: none; font-size: .95rem; }
+
+  .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .ftr a { color: #c9d4ec; text-decoration: none; font-size: .93rem; }
+  .ftr a:hover { color: #fff; text-decoration: underline; }
+
+  .ftr__base {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem;
+    padding-block: 1.15rem;
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+  .ftr__base p { margin: 0; font-size: .84rem; color: #8c9cc0; }
+</style>

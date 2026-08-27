@@ -1,0 +1,48 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import ProductGrid from '../components/ProductGrid.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+---
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">{c.nav.products}</p>
+    <h1>{c.products.heading}</h1>
+    <p class="lead">{c.products.sub}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <ProductGrid lang={lang} detailed />
+    <aside class="note">
+      <p>{c.products.note}</p>
+    </aside>
+  </div>
+</section>
+
+<Gallery lang={lang} />
+
+<CtaBand lang={lang} />
+
+<style>
+  .pagehead {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  }
+  .pagehead h1 { max-width: 20ch; }
+  .lead { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; margin: 0; }
+
+  .note {
+    margin-top: 2.5rem; padding: 1.4rem 1.6rem;
+    background: var(--brand-50);
+    border: 1px solid #cfd9f5; border-left: 4px solid var(--brand);
+    border-radius: 10px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: .98rem; }
+</style>

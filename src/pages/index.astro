@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import HomeBody from '../sections/HomeBody.astro';
+import { t } from '../i18n/ui';
+
+const lang = 'en' as const;
+const m = t(lang).meta.home;
+---
+<Base lang={lang} title={m.title} description={m.desc} path="/">
+  <HomeBody lang={lang} />
+</Base>

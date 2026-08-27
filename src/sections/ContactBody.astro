@@ -1,0 +1,152 @@
+---
+import { site, telHref, prettyPhone, waHref, fullAddress, mapsSearchUrl, mapEmbedFor } from '../site.config';
+import { Image } from 'astro:assets';
+import signboard from '../assets/awards/signboard.jpg';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = t(lang);
+const phones = [site.phonePrimary, site.phoneSecondary].filter(Boolean) as string[];
+---
+<section class="pagehead">
+  <div class="wrap">
+    <p class="eyebrow">{c.nav.contact}</p>
+    <h1>{c.contact.heading}</h1>
+    <p class="lead">{c.contact.sub}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap ct">
+    <div class="ct__cards">
+      <article class="card ct__card">
+        <h3>{c.contact.phoneLabel}</h3>
+        <ul class="plain">
+          {phones.map((p) => (
+            <li><a href={telHref(p)}>{prettyPhone(p)}</a></li>
+          ))}
+        </ul>
+        <a class="btn btn--primary" href={telHref(site.phonePrimary)}>{c.cta.call}</a>
+      </article>
+
+      <article class="card ct__card">
+        <h3>{c.contact.whatsappLabel}</h3>
+        <ul class="plain"><li>{prettyPhone(`+${site.whatsapp}`)}</li></ul>
+        <a class="btn btn--wa" href={waHref(c.contact.waMessage)} target="_blank" rel="noopener">
+          {c.cta.whatsapp}
+        </a>
+      </article>
+
+      <article class="card ct__card">
+        <h3>{c.contact.landlineLabel}</h3>
+        <ul class="plain"><li><a href={telHref(site.landline)}>{prettyPhone(site.landline)}</a></li></ul>
+      </article>
+
+      <article class="card ct__card">
+        <h3>{c.contact.emailLabel}</h3>
+        <ul class="plain"><li><a href={`mailto:${site.email}`}>{site.email}</a></li></ul>
+      </article>
+
+      <article class="card ct__card">
+        <h3>{c.contact.hoursLabel}</h3>
+        <ul class="plain">
+          <li>{site.hours.weekdays}</li>
+          <li>{site.hours.sunday}</li>
+          <li class="ct__note">{site.hours.note}</li>
+        </ul>
+      </article>
+    </div>
+
+    <aside class="ct__addr">
+      <Image class="ct__sign" src={signboard} alt={c.awards.signboard}
+             widths={[600, 1300]} sizes="(min-width: 940px) 420px, 92vw" loading="lazy" />
+      <h3>{c.contact.addressLabel}</h3>
+      <address>
+        <strong>{site.legalName}</strong><br />
+        {fullAddress}<br />
+        {site.address.country}
+      </address>
+      <dl class="reg">
+        <dt>GSTIN</dt><dd>{site.gstin}</dd>
+        <dt>Udyam</dt><dd>{site.udyam}</dd>
+      </dl>
+
+      {site.mapEmbedUrl ? (
+        <iframe
+          class="ct__map"
+          src={mapEmbedFor(lang)}
+          title={`${site.name} — map`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      ) : (
+        <p class="ct__mapnote">{c.contact.mapNote}</p>
+      )}
+
+      <a class="btn btn--ghost" href={mapsSearchUrl} target="_blank" rel="noopener">
+        {c.cta.directions}
+      </a>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .pagehead {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  }
+  .lead { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; margin: 0; }
+
+  .ct { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 940px) { .ct { grid-template-columns: 1.35fr 1fr; gap: 3rem; } }
+
+  .ct__cards { display: grid; gap: 1.25rem; }
+  @media (min-width: 620px) { .ct__cards { grid-template-columns: 1fr 1fr; } }
+  .ct__card { display: flex; flex-direction: column; align-items: flex-start; }
+  .ct__card h3 {
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .8rem;
+  }
+  html[lang^="ml"] .ct__card h3 { letter-spacing: .03em; text-transform: none; font-size: .95rem; }
+
+  .plain { list-style: none; margin: 0 0 1.2rem; padding: 0; display: grid; gap: .3rem; }
+  .ct__note { font-family: var(--font-body) !important; font-size: .87rem !important; font-weight: 400 !important; color: var(--muted) !important; }
+  .plain li {
+    font-family: var(--font-display); font-size: 1.06rem; font-weight: 600; color: var(--ink);
+  }
+  html[lang^="ml"] .plain li { font-size: .98rem; }
+  .plain a { color: var(--ink); text-decoration: none; }
+  .plain a:hover { color: var(--brand-700); text-decoration: underline; }
+  .ct__card .btn { margin-top: auto; }
+
+  .ct__addr {
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: var(--r); padding: 1.75rem;
+  }
+  .ct__sign {
+    width: calc(100% + 3.5rem); margin: -1.75rem -1.75rem 1.5rem;
+    border-radius: var(--r) var(--r) 0 0; display: block;
+  }
+  .ct__addr h3 {
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .9rem;
+  }
+  html[lang^="ml"] .ct__addr h3 { letter-spacing: .03em; text-transform: none; font-size: .95rem; }
+  .ct__addr address { font-style: normal; line-height: 1.75; color: var(--ink-2); }
+  .ct__addr address strong { color: var(--ink); }
+  .reg {
+    display: grid; grid-template-columns: auto 1fr; gap: .25rem .9rem;
+    margin: 1.1rem 0 1.4rem; font-size: .84rem;
+  }
+  .reg dt { color: var(--muted); }
+  .reg dd { margin: 0; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+  .ct__map {
+    width: 100%; height: 260px; border: 0;
+    border-radius: 10px; margin-bottom: 1.3rem; display: block;
+  }
+  .ct__mapnote { font-size: .92rem; color: var(--muted); margin-bottom: 1.3rem; }
+</style>

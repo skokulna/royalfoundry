@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactBody from '../sections/ContactBody.astro';
+import { t } from '../i18n/ui';
+
+const lang = 'en' as const;
+const m = t(lang).meta.contact;
+---
+<Base lang={lang} title={m.title} description={m.desc} path="/contact">
+  <ContactBody lang={lang} />
+</Base>

@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import AboutBody from '../../sections/AboutBody.astro';
+import { t } from '../../i18n/ui';
+
+const lang = 'ml' as const;
+const m = t(lang).meta.about;
+---
+<Base lang={lang} title={m.title} description={m.desc} path="/about">
+  <AboutBody lang={lang} />
+</Base>

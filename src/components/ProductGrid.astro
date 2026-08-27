@@ -1,0 +1,218 @@
+---
+import { Image } from 'astro:assets';
+import { t, type Lang } from '../i18n/ui';
+
+const productFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/products/*.{jpg,jpeg,png,webp}', { eager: true });
+const galleryFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/gallery/*/*.{jpg,jpeg,png,webp}', { eager: true });
+
+/** Single fallback photo per slug: src/assets/products/<slug>.jpg */
+const single: Record<string, ImageMetadata> = {};
+for (const [path, mod] of Object.entries(productFiles)) {
+  single[path.split('/').pop()!.replace(/\.[^.]+$/, '')] = mod.default;
+}
+/**
+ * Look a gallery photo up by "<group>/<name>", ignoring the leading NN- that
+ * `npm run rekey` reassigns. Referencing the number directly would silently
+ * break every time a photo is inserted earlier in a worksheet.
+ */
+const byName = new Map<string, ImageMetadata>();
+for (const [path, mod] of Object.entries(galleryFiles)) {
+  const m = path.match(/\/gallery\/([^/]+)\/(?:\d+-)?(.+)\.[a-z]+$/);
+  if (m) byName.set(`${m[1]}/${m[2]}`, mod.default);
+}
+const gal = (rel: string) => byName.get(rel.replace(/\/(?:\d+-)/, '/'));
+
+/**
+ * Photos each card cycles through, in order. Two or three per slug.
+ * A slug with no entry here falls back to its single products/ photo,
+ * and a slug with neither shows the line icon.
+ */
+const ROTATION: Record<string, string[]> = {
+  clamps: [
+    'electrical/clamps-range-of-five-sizes',
+    'electrical/large-parallel-groove-clamp',
+    'electrical/t-clamp-for-various-conductors-topview',
+    'electrical/compressed-type-t-clamp',
+    'electrical/transformer-bushing-clamp-for-double-conductor',
+    'electrical/ct-clamp',
+    'electrical/isolator-pad-clamp',
+    'electrical/down-lead-clamp',
+    'electrical/cable-lugs-and-terminal-ends',
+    'electrical/pg-clamps-range-of-three-sizes',
+  ],
+  'ab-switches': [
+    'electrical/ab-switch-11kv-400a',
+    'electrical/ab-switch-11kv-400a-topview',
+    'electrical/ab-switch-assembled',
+    'electrical/ab-switch-male-female-new-type',
+    'electrical/ab-switch-contact-assemblies',
+    'electrical/female-contact-assembly',
+    'electrical/female-contact-assembly-sideview',
+    'electrical/ab-switch-jaw-contacts',
+    'electrical/ab-switch-operating-mechanism-set',
+    'electrical/covered-conductor-clamp-and-hardware-fittings',
+  ],
+  earthing: [
+    'electrical/earth-rod-with-earthing-clamp',
+    'electrical/shorting-clip-with-spike-earth-rod',
+  ],
+  'dtr-boxes': [
+    'dtr/dtr-box-front',
+    'dtr/dtr-box-exterior',
+    'dtr/dtr-box-side-louvres',
+    'dtr/dtr-box-busbars',
+    'dtr/dtr-box-open',
+    'dtr/dtr-box-busbar-rails',
+    'dtr/dtr-box-glands',
+    'dtr/dtr-box-louvre-detail',
+  ],
+  moulds: [
+    'moulds/floral-lace-mould',
+    'moulds/leaf-spray-mould',
+    'moulds/chevron-mould-with-welcome-lettering',
+    'moulds/fan-pattern-semicircle-mould-70x40-cm',
+    'moulds/scalloped-shell-mould',
+    'moulds/octagon-panel-mould-75x45-cm',
+    'moulds/flower-motif-mould',
+    'moulds/basketweave-moulds',
+    'moulds/diamond-lattice-mould-50x40-cm',
+    'moulds/diagonal-lattice-mould',
+  ],
+  fabrication: [
+    'electrical/base-frame-pole-top-with-nylon-sheet',
+    'electrical/base-frame-for-section-fuse-with-neutral-link',
+    'electrical/tie-bar-connecting-link',
+    'electrical/nylon-spacer-block',
+    'electrical/bar-spacer-clamp',
+    'electrical/wedge-piece-with-pg-clamp',
+  ],
+};
+
+const framesFor = (slug: string, cap = 99): ImageMetadata[] => {
+  const rot = ((ROTATION[slug] ?? []).map(gal).filter(Boolean) as ImageMetadata[]).slice(0, cap);
+  if (rot.length > 1) return rot;
+  const one = rot[0] ?? single[slug];
+  return one ? [one] : [];
+};
+
+interface Props { lang: Lang; detailed?: boolean; limit?: number; frames?: number; }
+// `frames` caps how many photos each card cycles through. The home page uses a
+// smaller number to keep its payload down; /products shows the full rotation.
+const { lang, detailed = false, limit, frames: maxFrames = 99 } = Astro.props;
+const c = t(lang);
+const items = limit ? c.products.items.slice(0, limit) : c.products.items;
+
+const SLOT = 3.6;  // seconds each photo is on screen
+const FADE = 0.54; // seconds of crossfade — matches the keyframe percentages below
+// Frame 0 gets a negative delay so it is already opaque on load (no dark flash);
+// every later frame starts hidden and fades in exactly as the previous fades out.
+const delayFor = (i: number) => (i * SLOT - FADE).toFixed(2);
+
+const counts = [...new Set(items.map((p) => framesFor(p.slug, maxFrames).length))].filter((n) => n > 1);
+/**
+ * One keyframe set per frame-count in use. Each frame fades in, holds its
+ * 1/n slice, then fades out exactly as the next fades in — so the stack is
+ * never simultaneously transparent.
+ */
+const keyframes = counts.map((n) => {
+  const cycle = n * SLOT;
+  const fade = (FADE / cycle) * 100;
+  const hold = 100 / n;
+  return `@keyframes rf-rot-${n}{` +
+    `0%{opacity:0}` +
+    `${fade.toFixed(3)}%{opacity:1}` +
+    `${hold.toFixed(3)}%{opacity:1}` +
+    `${(hold + fade).toFixed(3)}%{opacity:0}` +
+    `100%{opacity:0}}` +
+    `.prod__media--${n} img{animation-name:rf-rot-${n}}`;
+}).join('');
+
+const icons: Record<string, string> = {
+  clamps:      'M7 4h10v3H7zM4 9h16v2H4zm3 4h10v7H7z',
+  'ab-switches': 'M12 2v8m0 0 4-3m-4 3-4-3M4 14h16v7H4z',
+  earthing:    'M12 2v11M6 15h12M8 18h8M10 21h4',
+  moulds:      'M4 5h16v5H4zm2 9h12v6H6z',
+  'dtr-boxes': 'M3 7h18v12H3zM3 7l3-3h12l3 3M7 11h10M7 15h6',
+  fabrication: 'M3 18 14 7l3 3L6 21zM15 3l6 6-2 2-6-6z',
+};
+---
+<div class="grid grid--3">
+  {items.map((p) => {
+    const frames = framesFor(p.slug, maxFrames);
+    const n = frames.length;
+    return (
+      <article class="card prod" id={detailed ? p.slug : undefined}>
+        {n > 0 && (
+          <div
+            class:list={['prod__media', n > 1 && `prod__media--${n}`]}
+            style={n > 1 ? `--cycle:${(n * SLOT).toFixed(1)}s` : undefined}
+          >
+            {frames.map((img, i) => (
+              <Image
+                src={img}
+                alt={i === 0 ? p.name : ''}
+                widths={[400, 800]}
+                sizes="(min-width: 1000px) 360px, (min-width: 700px) 45vw, 90vw"
+                loading="lazy"
+                style={n > 1 ? `--d:${delayFor(i)}s` : undefined}
+              />
+            ))}
+          </div>
+        )}
+        <span class="prod__ico" class:list={[n > 0 && 'prod__ico--withimg']} aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round"><path d={icons[p.slug]} /></svg>
+        </span>
+        <h3>{p.name}</h3>
+        <p>{p.summary}</p>
+        {detailed && <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>}
+      </article>
+    );
+  })}
+</div>
+
+<style is:inline set:html={keyframes}></style>
+
+<style>
+  .prod { display: flex; flex-direction: column; }
+
+  .prod__media {
+    position: relative;
+    width: calc(100% + 3.2rem);
+    margin: -1.6rem -1.6rem 1.3rem;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--r) var(--r) 0 0;
+    overflow: hidden;
+    background: #11151f;
+  }
+  .prod__media :global(img) {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  /* stack every frame after the first on top of it */
+  .prod__media[class*='prod__media--'] :global(img) {
+    position: absolute; inset: 0;
+    animation-duration: var(--cycle);
+    animation-delay: var(--d);
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: backwards;
+  }
+
+
+  /* a still page for anyone who asked for one */
+  @media (prefers-reduced-motion: reduce) {
+    .prod__media :global(img) { animation: none; }
+    .prod__media :global(img:not(:first-child)) { opacity: 0; }
+  }
+
+  .prod__ico--withimg { display: none; }
+  .prod__ico {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; margin-bottom: 1.1rem;
+    border-radius: 11px; background: var(--brand-50); color: var(--brand);
+  }
+  .prod__ico svg { width: 24px; height: 24px; }
+  .prod ul { margin-top: auto; }
+</style>
