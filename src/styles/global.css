@@ -12,7 +12,7 @@
 
   --ink:        #0f1729;
   --ink-2:      #3d4a63;
-  --muted:      #6b7794;
+  --muted:      #616c88;   /* 4.88:1 on the tinted band; #6b7794 was 4.17 */
 
   --paper:      #ffffff;
   --paper-2:    #f5f7fb;
