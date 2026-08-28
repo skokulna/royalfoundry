@@ -4,8 +4,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
 
-/*.png
-  Cache-Control: public, max-age=31536000, immutable
-
+# Astro fingerprints everything under /_astro/ with a content hash, so the URL
+# changes whenever the file does. Only these are safe to mark immutable.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The logo, favicons and share image keep the SAME filename when their contents
+# change. Caching them immutably meant a logo update would not reach anyone who
+# had already visited, for up to a year. One day, and revalidate after that.
+/*.png
+  Cache-Control: public, max-age=86400, must-revalidate
