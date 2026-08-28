@@ -71,6 +71,9 @@ export const site = {
    * Add each URL as it exists; leave the rest blank.
    */
   sameAs: [
+    // Permanent, built from the Google place ID — a maps.app.goo.gl short link
+    // can be reissued, this one cannot.
+    'https://www.google.com/maps/place/?q=place_id:ChIJ98QNHpgpBjsRDzDngh085Ho',
     'https://maps.app.goo.gl/yLpYiGmXeq8EZCuUA',
   ] as string[],
 
