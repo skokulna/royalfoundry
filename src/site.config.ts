@@ -64,6 +64,16 @@ export const site = {
 
   jurisdiction: 'Kottayam',
 
+  /**
+   * Profiles that are demonstrably the same business. Google uses these to
+   * connect the website, the Business Profile and directory listings into one
+   * entity — which is what makes the knowledge panel appear for a brand search.
+   * Add each URL as it exists; leave the rest blank.
+   */
+  sameAs: [
+    'https://maps.app.goo.gl/yLpYiGmXeq8EZCuUA',
+  ] as string[],
+
   social: { facebook: '', instagram: '' },
 } as const;
 
