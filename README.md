@@ -175,30 +175,53 @@ connection.
 
 ---
 
+## Search and discovery
+
+| | |
+|---|---|
+| Google Search Console | Verified (domain property). Sitemap submitted, indexing requested for `/`, `/products/`, `/contact/` |
+| Google Business Profile | Created; listing live on Maps. **Suspended Aug 2026 — appeal submitted** with GST and Udyam certificates, the signboard photo and a trading invoice |
+| Structured data | LocalBusiness with coordinates, 24/7 hours, the 2013–14 award, and `sameAs` linking the site to the Maps listing |
+| Share card | `public/share-1200x630.png` — a proper banner for WhatsApp and social links |
+
+The suspension affects only the Maps listing and knowledge panel. The website
+itself is unaffected.
+
+The Business Profile address must match the GST certificate exactly, including
+**Nattakom** — an address that omits it does not match government records, and
+that mismatch is the usual cause of suspension in India. The name field must
+stay "Royal Foundry" with no added keywords.
+
+`tmp/gbp-upload/` holds a prepared photo pack (logo, cover, signboard, awards,
+products) sized to Google's requirements, with instructions.
+
 ## Still open
 
 - [ ] **Malayalam proofread by a native speaker.** The Malayalam throughout was
       written from the English and has not been checked by anyone who speaks it.
       This is the largest remaining risk on the site.
+- [ ] **Business Profile reinstatement** — awaiting Google's decision. Once
+      live, upload the photos over several days and add the profile URL to
+      `sameAs` in `src/site.config.ts`.
+- [ ] **Reviews** — the strongest local-ranking signal there is. A few lines
+      from regular customers is worth more than any further code change.
+- [ ] **Directory listings** — IndiaMART, TradeIndia, JustDial, Kerala MSME
+      directories. Name, address and phone must be identical everywhere.
+      Add each URL to `sameAs`.
+- [ ] **Split the six product lines onto their own pages.** They currently share
+      `/products` and compete for the same searches. Best done once Search
+      Console Performance shows which terms people actually use.
 - [ ] **Domain email** — deferred. Zoho withdrew its free plan; Mail Lite is
-      ~Rs835/yr for one mailbox with `cpmeena@` as an alias. Options and prices
-      are noted in `src/site.config.ts`. The site shows the Gmail, which works.
-- [ ] **Google Search Console** — verify the domain and submit
-      `https://royalfoundry.in/sitemap-index.xml` to speed up indexing.
-- [ ] Photos of a finished DTR box — the eight in use are video stills
-      (848×478) and look soft when enlarged in the lightbox.
-- [ ] The exact name of the District Industries Centre award. Its caption is
-      deliberately vague because the banner in the photo is partly obscured.
-- [ ] Check the product labels in `files/*/GROUPS.md` — they drive the gallery
-      captions and image alt text.
+      ~Rs835/yr for one mailbox with `cpmeena@` as an alias. See the note in
+      `src/site.config.ts`.
+- [ ] Photos of a finished DTR box — the eight in use are video stills (848x478).
+- [ ] The exact name of the District Industries Centre award.
 
 Confirmed and settled: PIN `686531`, the full street address, established 1991,
 24-hour working all week, both mobiles plus the landline, the Google Maps
 location, and that the hardware goes to KSEB electrical, transmission and
 generation circles and tower lines while the mat moulds go to manufacturers
 across India.
-
----
 
 ## Notes
 
